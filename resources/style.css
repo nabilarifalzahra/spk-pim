@@ -1,31 +1,207 @@
+/* ==========================================================================
+   Warna Utama & Variabel Tema (Deep Navy & Pink Neon / Rose Theme)
+   ========================================================================== */
+:root {
+    --bg-main: #0f0d15;                 /* Dark Violet Background */
+    --bg-card: #191424;                 /* Dark Purple/Rose Slate Card */
+    --bg-input: #0f0d15;                /* Dark Input Background */
+    --border-color: #2e2340;            /* Soft Violet Border */
+    
+    --text-white: #ffffff;
+    --text-main: #e2e8f0;
+    --text-sub: #94a3b8;
+    
+    --accent-pink: #ec4899;             /* Vibrant Pink Primary */
+    --accent-pink-hover: #f472b6;       /* Light Pink Hover */
+    --accent-pink-light: rgba(236, 72, 153, 0.15); /* Soft Pink Glow Background */
+    --accent-purple: #c084fc;           /* Secondary Purple Accent */
+}
+
+/* Base Body Styles */
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+/* Text & Accent Color Utility Classes */
+.text-accent { color: var(--accent-pink); }
+.text-main { color: var(--text-main); }
+.text-sub { color: var(--text-sub); }
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
 }
 ::-webkit-scrollbar-track {
-    background: #0f172a;
+    background: var(--bg-main);
 }
 ::-webkit-scrollbar-thumb {
-    background: #334155;
+    background: #2e2340;
     border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #475569;
+    background: #4a3866;
 }
 
-/* Custom Range Input Highlight */
-input[type=range]::-webkit-slider-thumb {
-    transition: transform 0.1s ease-in-out;
-}
-input[type=range]::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
+/* ==========================================================================
+   Header & Component Styles
+   ========================================================================== */
+.app-header {
+    background-color: rgba(15, 13, 21, 0.85);
+    border-color: var(--border-color);
 }
 
-/* Card hover animation */
+.brand-icon-box {
+    background-color: var(--accent-pink-light);
+    color: var(--accent-pink);
+    border-color: rgba(236, 72, 153, 0.3);
+}
+
+.badge-brand {
+    background-color: var(--accent-pink);
+    color: #4c0519; /* Deep Rose Text */
+}
+
+.badge-mono {
+    background-color: #251b36;
+    color: var(--text-main);
+}
+
+.badge-engine {
+    background-color: var(--bg-main);
+    color: var(--accent-pink);
+    border-color: rgba(236, 72, 153, 0.3);
+}
+
+/* Card & Panels */
+.panel-card {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+.top-rec-card {
+    background: linear-gradient(to right, var(--accent-pink-light), var(--bg-card), var(--bg-card));
+    border-color: rgba(236, 72, 153, 0.35);
+}
+
+.trophy-icon {
+    color: var(--accent-pink);
+    opacity: 0.12;
+}
+
+.score-box {
+    background-color: rgba(15, 13, 21, 0.8);
+    border-color: var(--border-color);
+}
+
+.border-t-card { border-top: 1px solid var(--border-color); }
+.border-b-card { border-bottom: 1px solid var(--border-color); }
+
+/* ==========================================================================
+   Form Input & Buttons
+   ========================================================================== */
+.input-field {
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+.input-field:focus {
+    outline: none;
+    border-color: var(--accent-pink);
+    box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
+}
+
+.btn-emerald { /* Class alias untuk tombol utama agar kompatibel dengan HTML */
+    background-color: var(--accent-pink);
+    color: #4c0519;
+}
+.btn-emerald:hover {
+    background-color: var(--accent-pink-hover);
+    box-shadow: 0 4px 14px 0 rgba(236, 72, 153, 0.4);
+}
+
+.btn-dark {
+    background-color: #251b36;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+.btn-dark:hover {
+    background-color: #3b2c54;
+    color: var(--text-white);
+}
+
+/* Range Input (Slider) */
+.custom-range {
+    accent-color: var(--accent-pink);
+    background-color: #251b36;
+}
+.custom-range::-webkit-slider-thumb {
+    transition: transform 0.15s ease-in-out, background-color 0.15s ease;
+    background-color: var(--accent-pink);
+}
+.custom-range::-webkit-slider-thumb:hover {
+    transform: scale(1.25);
+    background-color: var(--accent-pink-hover);
+}
+
+/* Tabs Navigation */
+.tab-btn {
+    color: var(--text-sub);
+}
+.tab-btn:hover {
+    background-color: rgba(46, 35, 64, 0.5);
+}
+.tab-btn.active {
+    background-color: var(--accent-pink-light);
+    color: var(--accent-pink);
+    border: 1px solid rgba(236, 72, 153, 0.4);
+}
+
+/* ==========================================================================
+   Table & Modal
+   ========================================================================== */
+.table-custom thead {
+    background-color: var(--bg-main);
+    color: var(--text-sub);
+    border-bottom: 1px solid var(--border-color);
+}
+.divide-y-custom > tr {
+    border-bottom: 1px solid rgba(46, 35, 64, 0.6);
+}
+.divide-y-custom > tr:hover {
+    background-color: rgba(46, 35, 64, 0.4);
+}
+
+.modal-backdrop {
+    background-color: rgba(15, 13, 21, 0.85);
+}
+.modal-card {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+/* Ranking Card Animation & Hover */
 .ranking-card {
-    transition: all 0.2s ease-in-out;
+    background-color: rgba(25, 20, 36, 0.6);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .ranking-card:hover {
     transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(236, 72, 153, 0.15);
+}
+.ranking-card.top-rank {
+    border-color: rgba(236, 72, 153, 0.5);
+}
+
+.rank-badge-top {
+    background-color: var(--accent-pink);
+    color: #4c0519;
+    font-weight: 900;
+}
+.rank-badge-normal {
+    background-color: #251b36;
+    color: var(--text-main);
+    font-weight: 700;
 }

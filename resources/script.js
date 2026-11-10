@@ -1,4 +1,4 @@
-// --- Data Initial (Alternatif Tenant Kuliner Mall) ---
+// --- Data Initial Tenant Kuliner Mall ---
 let tenants = [
     { id: 1, nama: "Marugame Udon", lokasi: "Lantai 2 - PIM", halalStatus: "Tersertifikasi", c1: 4, c2: 5, c3: 5, c4: 4, c5: 5 },
     { id: 2, nama: "Kopi Kenangan", lokasi: "Lantai GF - PIM", halalStatus: "Tersertifikasi", c1: 2, c2: 4, c3: 4, c4: 5, c5: 5 },
@@ -9,14 +9,13 @@ let tenants = [
     { id: 7, nama: "Gokana Ramen", lokasi: "Lantai 2 - PIM", halalStatus: "Tersertifikasi", c1: 3, c2: 4, c3: 4, c4: 4, c5: 5 }
 ];
 
-// Configuration Kriteria: C1 (Harga/Cost), C2-C5 (Benefit)
-let currentMethod = 'SAW';
+// Configuration Kriteria: C1 (Cost), C2-C5 (Benefit)
 let weights = {
-    c1: 0.25, // Harga (Cost)
-    c2: 0.30, // Rasa (Benefit)
-    c3: 0.20, // Kebersihan (Benefit)
-    c4: 0.15, // Kecepatan (Benefit)
-    c5: 0.10  // Halal (Benefit)
+    c1: 0.25, // Harga
+    c2: 0.30, // Rasa
+    c3: 0.20, // Kebersihan
+    c4: 0.15, // Kecepatan
+    c5: 0.10  // Halal
 };
 
 let spkChart = null;
@@ -56,26 +55,6 @@ function initEventListeners() {
     // Recalculate Button
     document.getElementById('btn-recalculate').addEventListener('click', calculateSPK);
 
-    // Method Switches
-    const btnSaw = document.getElementById('btn-method-saw');
-    const btnTopsis = document.getElementById('btn-method-topsis');
-    
-    btnSaw.addEventListener('click', () => {
-        currentMethod = 'SAW';
-        btnSaw.className = "flex-1 py-1.5 text-xs font-semibold rounded-lg bg-amber-500 text-slate-950 shadow transition-all";
-        btnTopsis.className = "flex-1 py-1.5 text-xs font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all";
-        document.getElementById('method-indicator').textContent = "Metode: SAW";
-        calculateSPK();
-    });
-
-    btnTopsis.addEventListener('click', () => {
-        currentMethod = 'TOPSIS';
-        btnTopsis.className = "flex-1 py-1.5 text-xs font-semibold rounded-lg bg-amber-500 text-slate-950 shadow transition-all";
-        btnSaw.className = "flex-1 py-1.5 text-xs font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all";
-        document.getElementById('method-indicator').textContent = "Metode: TOPSIS";
-        calculateSPK();
-    });
-
     // Filter Listeners
     document.getElementById('filter-search').addEventListener('input', calculateSPK);
     document.getElementById('filter-halal').addEventListener('change', calculateSPK);
@@ -105,7 +84,7 @@ function initEventListeners() {
         showView(viewMatrix, [viewRank, viewChart]);
     });
 
-    // Modal Control
+    // Modal Controls
     const modal = document.getElementById('tenant-modal');
     document.getElementById('btn-open-modal').addEventListener('click', () => {
         document.getElementById('modal-title').textContent = "Tambah Tenant Makanan";
@@ -117,7 +96,7 @@ function initEventListeners() {
     document.getElementById('btn-close-modal').addEventListener('click', () => modal.classList.add('hidden'));
     document.getElementById('btn-cancel-modal').addEventListener('click', () => modal.classList.add('hidden'));
 
-    // Tenant Form Submission
+    // Form Submission
     document.getElementById('tenant-form').addEventListener('submit', (e) => {
         e.preventDefault();
         const id = document.getElementById('tenant-id').value;
@@ -146,9 +125,9 @@ function initEventListeners() {
 }
 
 function setActiveTab(active, inactives) {
-    active.className = "px-4 py-2 text-xs font-bold rounded-xl bg-slate-700 text-amber-400 border border-slate-600 flex items-center gap-1.5";
+    active.className = "tab-btn active px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-1.5";
     inactives.forEach(t => {
-        t.className = "px-4 py-2 text-xs font-semibold rounded-xl text-slate-400 hover:bg-slate-700/50 flex items-center gap-1.5";
+        t.className = "tab-btn px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-1.5";
     });
 }
 
@@ -157,9 +136,8 @@ function showView(activeView, inactiveViews) {
     inactiveViews.forEach(v => v.classList.add('hidden'));
 }
 
-// --- ENGINE SPK (SAW & TOPSIS) ---
+// --- ENGINE SPK (Murni Metode CoCoSo) ---
 function calculateSPK() {
-    // 1. Filter Tenants
     const searchValue = document.getElementById('filter-search').value.toLowerCase();
     const halalFilter = document.getElementById('filter-halal').value;
 
@@ -174,108 +152,73 @@ function calculateSPK() {
         return;
     }
 
-    let results = [];
+    const results = calculateCoCoSo(filtered);
 
-    if (currentMethod === 'SAW') {
-        results = calculateSAW(filtered);
-    } else {
-        results = calculateTOPSIS(filtered);
-    }
-
-    // Sort Descending by Score
+    // Sort Descending by CoCoSo Score (k_i)
     results.sort((a, b) => b.score - a.score);
 
-    // Render Views
+    // Render All Views
     renderTopRecommendation(results[0]);
     renderRankingList(results);
-    renderMatrixTable(filtered);
+    renderMatrixTable(results);
     if (!document.getElementById('view-chart').classList.contains('hidden')) {
         renderChart(results);
     }
 }
 
-// --- Algoritma Simple Additive Weighting (SAW) ---
-function calculateSAW(data) {
-    // Cari nilai Min untuk C1 (Cost) dan Max untuk C2-C5 (Benefit)
-    const minC1 = Math.min(...data.map(d => d.c1));
-    const maxC2 = Math.max(...data.map(d => d.c2));
-    const maxC3 = Math.max(...data.map(d => d.c3));
-    const maxC4 = Math.max(...data.map(d => d.c4));
-    const maxC5 = Math.max(...data.map(d => d.c5));
+// --- Algoritma CoCoSo (Combined Compromise Solution) ---
+function calculateCoCoSo(data) {
+    const lambda = 0.5;
+    const criteriaKeys = ['c1', 'c2', 'c3', 'c4', 'c5'];
+    const types = { c1: 'cost', c2: 'benefit', c3: 'benefit', c4: 'benefit', c5: 'benefit' };
 
-    return data.map(item => {
-        // Normalisasi Matriks (R)
-        const r1 = minC1 / item.c1; // Cost
-        const r2 = item.c2 / maxC2; // Benefit
-        const r3 = item.c3 / maxC3;
-        const r4 = item.c4 / maxC4;
-        const r5 = item.c5 / maxC5;
-
-        // Total Bobot Terbobot (V)
-        const score = (r1 * weights.c1) + (r2 * weights.c2) + (r3 * weights.c3) + (r4 * weights.c4) + (r5 * weights.c5);
-
-        return { ...item, score, normalized: { r1, r2, r3, r4, r5 } };
+    // 1. Min & Max per kriteria
+    const minMax = {};
+    criteriaKeys.forEach(c => {
+        const vals = data.map(d => d[c]);
+        minMax[c] = { min: Math.min(...vals), max: Math.max(...vals) };
     });
-}
 
-// --- Algoritma TOPSIS ---
-function calculateTOPSIS(data) {
-    // 1. Pembagi Normalisasi Vektor
-    const divC1 = Math.sqrt(data.reduce((sum, d) => sum + Math.pow(d.c1, 2), 0));
-    const divC2 = Math.sqrt(data.reduce((sum, d) => sum + Math.pow(d.c2, 2), 0));
-    const divC3 = Math.sqrt(data.reduce((sum, d) => sum + Math.pow(d.c3, 2), 0));
-    const divC4 = Math.sqrt(data.reduce((sum, d) => sum + Math.pow(d.c4, 2), 0));
-    const divC5 = Math.sqrt(data.reduce((sum, d) => sum + Math.pow(d.c5, 2), 0));
+    // 2. Normalisasi Min-Max & Perhitungan S_i (Additive) & P_i (Power)
+    const calculatedData = data.map(item => {
+        let S_i = 0;
+        let P_i = 0;
 
-    // 2. Matriks Terbobot (Y)
-    const weightedData = data.map(item => ({
-        ...item,
-        y1: (item.c1 / divC1) * weights.c1,
-        y2: (item.c2 / divC2) * weights.c2,
-        y3: (item.c3 / divC3) * weights.c3,
-        y4: (item.c4 / divC4) * weights.c4,
-        y5: (item.c5 / divC5) * weights.c5,
-    }));
+        criteriaKeys.forEach(c => {
+            const w = weights[c];
+            const val = item[c];
+            const { min, max } = minMax[c];
 
-    // 3. Solusi Ideal Positif (A+) dan Solusi Ideal Negatif (A-)
-    // C1 is Cost -> A+ is Min, A- is Max
-    const aPlus = {
-        y1: Math.min(...weightedData.map(d => d.y1)),
-        y2: Math.max(...weightedData.map(d => d.y2)),
-        y3: Math.max(...weightedData.map(d => d.y3)),
-        y4: Math.max(...weightedData.map(d => d.y4)),
-        y5: Math.max(...weightedData.map(d => d.y5)),
-    };
+            // Formula Normalisasi Min-Max
+            let r_ij = (max === min) 
+                ? 1 
+                : (types[c] === 'benefit' ? (val - min) / (max - min) : (max - val) / (max - min));
 
-    const aMinus = {
-        y1: Math.max(...weightedData.map(d => d.y1)),
-        y2: Math.min(...weightedData.map(d => d.y2)),
-        y3: Math.min(...weightedData.map(d => d.y3)),
-        y4: Math.min(...weightedData.map(d => d.y4)),
-        y5: Math.min(...weightedData.map(d => d.y5)),
-    };
+            S_i += w * r_ij;
+            P_i += Math.pow(r_ij === 0 ? 0.0001 : r_ij, w);
+        });
 
-    // 4. Jarak Ideal (D+ dan D-) & Preferensi (V)
-    return weightedData.map(item => {
-        const dPlus = Math.sqrt(
-            Math.pow(item.y1 - aPlus.y1, 2) +
-            Math.pow(item.y2 - aPlus.y2, 2) +
-            Math.pow(item.y3 - aPlus.y3, 2) +
-            Math.pow(item.y4 - aPlus.y4, 2) +
-            Math.pow(item.y5 - aPlus.y5, 2)
-        );
+        return { ...item, S_i, P_i };
+    });
 
-        const dMinus = Math.sqrt(
-            Math.pow(item.y1 - aMinus.y1, 2) +
-            Math.pow(item.y2 - aMinus.y2, 2) +
-            Math.pow(item.y3 - aMinus.y3, 2) +
-            Math.pow(item.y4 - aMinus.y4, 2) +
-            Math.pow(item.y5 - aMinus.y5, 2)
-        );
+    // 3. Min/Max & Sum untuk S_i dan P_i
+    const sumS_P = calculatedData.reduce((acc, d) => acc + d.S_i + d.P_i, 0);
+    const minS = Math.min(...calculatedData.map(d => d.S_i));
+    const maxS = Math.max(...calculatedData.map(d => d.S_i));
+    const minP = Math.min(...calculatedData.map(d => d.P_i));
+    const maxP = Math.max(...calculatedData.map(d => d.P_i));
 
-        const score = dMinus / (dPlus + dMinus);
+    // 4. Hitung Kompromi (k_ia, k_ib, k_ic) & Skor Akhir CoCoSo (k_i)
+    return calculatedData.map(item => {
+        const k_ia = (item.P_i + item.S_i) / (sumS_P || 1);
+        const k_ib = (item.S_i / (minS || 1)) + (item.P_i / (minP || 1));
+        const k_ic = (lambda * item.S_i + (1 - lambda) * item.P_i) / 
+                     ((lambda * maxS + (1 - lambda) * maxP) || 1);
 
-        return { ...item, score };
+        // Formula Skor Akhir CoCoSo (k_i)
+        const score = Math.cbrt(k_ia * k_ib * k_ic) + (1 / 3) * (k_ia + k_ib + k_ic);
+
+        return { ...item, score, k_ia, k_ib, k_ic };
     });
 }
 
@@ -288,14 +231,14 @@ function renderTopRecommendation(topItem) {
 
     const tagsContainer = document.getElementById('rec-tags');
     tagsContainer.innerHTML = `
-        <span class="text-xs bg-slate-900/80 border border-slate-700 text-slate-300 px-2.5 py-1 rounded-lg flex items-center gap-1">
-            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i> ${topItem.halalStatus}
+        <span class="text-xs score-box border text-main px-2.5 py-1 rounded-lg flex items-center gap-1">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-accent"></i> ${topItem.halalStatus}
         </span>
-        <span class="text-xs bg-slate-900/80 border border-slate-700 text-slate-300 px-2.5 py-1 rounded-lg">
-            Skor Rasa: ${topItem.c2}/5
+        <span class="text-xs score-box border text-main px-2.5 py-1 rounded-lg">
+            S_i: ${topItem.S_i.toFixed(3)}
         </span>
-        <span class="text-xs bg-slate-900/80 border border-slate-700 text-slate-300 px-2.5 py-1 rounded-lg">
-            Tingkat Harga: ${topItem.c1}/5
+        <span class="text-xs score-box border text-main px-2.5 py-1 rounded-lg">
+            P_i: ${topItem.P_i.toFixed(3)}
         </span>
     `;
     lucide.createIcons();
@@ -307,12 +250,10 @@ function renderRankingList(results) {
 
     results.forEach((item, index) => {
         const isTop = index === 0;
-        const rankBadgeClass = isTop 
-            ? "bg-amber-500 text-slate-950 font-black" 
-            : "bg-slate-700 text-slate-300 font-bold";
+        const rankBadgeClass = isTop ? "rank-badge-top" : "rank-badge-normal";
 
         const card = document.createElement('div');
-        card.className = `ranking-card bg-slate-900/60 border ${isTop ? 'border-amber-500/50' : 'border-slate-700/60'} rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4`;
+        card.className = `ranking-card ${isTop ? 'top-rank' : ''} rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4`;
 
         card.innerHTML = `
             <div class="flex items-center gap-3.5">
@@ -322,28 +263,28 @@ function renderRankingList(results) {
                 <div>
                     <h4 class="font-bold text-white text-base flex items-center gap-2">
                         ${item.nama}
-                        ${isTop ? '<span class="text-[10px] bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded-full uppercase">Terbaik</span>' : ''}
+                        ${isTop ? '<span class="badge-brand text-[10px] px-2 py-0.5 rounded-full uppercase">Rekomendasi CoCoSo</span>' : ''}
                     </h4>
-                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400 mt-1">
+                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-sub mt-1">
                         <span><i data-lucide="map-pin" class="w-3 h-3 inline mr-1"></i>${item.lokasi}</span>
                         <span>•</span>
-                        <span>Saji: ${item.c4}/5</span>
+                        <span>Rasa: ${item.c2}/5</span>
                         <span>•</span>
-                        <span>Kebersihan: ${item.c3}/5</span>
+                        <span>Halal: ${item.halalStatus}</span>
                     </div>
                 </div>
             </div>
             
-            <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-800">
+            <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 pt-3 sm:pt-0 border-t-card">
                 <div class="text-right">
-                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Skor Akhir</span>
-                    <span class="text-lg font-bold font-mono text-amber-400">${item.score.toFixed(4)}</span>
+                    <span class="text-[10px] uppercase tracking-wider text-sub block">Skor CoCoSo (k_i)</span>
+                    <span class="text-lg font-bold font-mono text-accent">${item.score.toFixed(4)}</span>
                 </div>
                 <div class="flex items-center gap-1">
-                    <button onclick="editTenant(${item.id})" class="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
+                    <button onclick="editTenant(${item.id})" class="p-2 text-sub hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
                         <i data-lucide="edit-3" class="w-4 h-4"></i>
                     </button>
-                    <button onclick="deleteTenant(${item.id})" class="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-lg transition-colors">
+                    <button onclick="deleteTenant(${item.id})" class="p-2 text-sub hover:text-red-400 hover:bg-slate-800 rounded-lg transition-colors">
                         <i data-lucide="trash-2" class="w-4 h-4"></i>
                     </button>
                 </div>
@@ -354,20 +295,23 @@ function renderRankingList(results) {
     lucide.createIcons();
 }
 
-function renderMatrixTable(data) {
+function renderMatrixTable(results) {
     const tbody = document.getElementById('matrix-tbody');
     tbody.innerHTML = "";
 
-    data.forEach(item => {
+    results.forEach(item => {
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-800/40 transition-colors";
         tr.innerHTML = `
-            <td class="p-3 font-semibold text-white">${item.nama} <span class="text-[10px] text-slate-400 font-normal block">${item.lokasi}</span></td>
+            <td class="p-3 font-semibold text-white">${item.nama} <span class="text-[10px] text-sub font-normal block">${item.lokasi}</span></td>
             <td class="p-3 text-center font-mono">${item.c1}</td>
             <td class="p-3 text-center font-mono text-emerald-400">${item.c2}</td>
             <td class="p-3 text-center font-mono text-blue-400">${item.c3}</td>
             <td class="p-3 text-center font-mono text-yellow-400">${item.c4}</td>
             <td class="p-3 text-center font-mono text-purple-400">${item.c5}</td>
+            <td class="p-3 text-center font-mono text-emerald-400">${item.S_i ? item.S_i.toFixed(3) : '-'}</td>
+            <td class="p-3 text-center font-mono text-cyan-400">${item.P_i ? item.P_i.toFixed(3) : '-'}</td>
+            <td class="p-3 text-center font-mono font-bold text-amber-400">${item.score.toFixed(4)}</td>
         `;
         tbody.appendChild(tr);
     });
@@ -382,7 +326,7 @@ function renderChart(results) {
             const matchHalal = halalFilter === 'certified' ? t.halalStatus === 'Tersertifikasi' : true;
             return matchSearch && matchHalal;
         });
-        results = currentMethod === 'SAW' ? calculateSAW(filtered) : calculateTOPSIS(filtered);
+        results = calculateCoCoSo(filtered);
         results.sort((a, b) => b.score - a.score);
     }
 
@@ -395,9 +339,9 @@ function renderChart(results) {
         data: {
             labels: results.map(r => r.nama),
             datasets: [{
-                label: `Skor Akhir (${currentMethod})`,
+                label: 'Skor Akhir CoCoSo (k_i)',
                 data: results.map(r => r.score),
-                backgroundColor: results.map((_, i) => i === 0 ? '#f59e0b' : '#3b82f6'),
+                backgroundColor: results.map((_, i) => i === 0 ? '#10b981' : '#06b6d4'),
                 borderRadius: 8
             }]
         },
@@ -410,7 +354,7 @@ function renderChart(results) {
             scales: {
                 y: {
                     beginAtZero: true,
-                    grid: { color: '#334155' },
+                    grid: { color: '#1e2942' },
                     ticks: { color: '#94a3b8' }
                 },
                 x: {
@@ -424,7 +368,7 @@ function renderChart(results) {
 
 function renderEmptyState() {
     document.getElementById('view-ranking').innerHTML = `
-        <div class="text-center py-12 text-slate-500">
+        <div class="text-center py-12 text-sub">
             <i data-lucide="search-x" class="w-12 h-12 mx-auto mb-3 opacity-50"></i>
             <p>Tidak ada tenant makanan yang cocok dengan filter.</p>
         </div>
