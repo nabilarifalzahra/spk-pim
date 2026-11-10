@@ -3,9 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SPK Pemilihan Kuliner Mall (MCDM SAW/TOPSIS)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <h1>Halo</h1>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans flex flex-col">
+    <header class-bg-slate-800/80 backdrop-blur border-b border-slate-700 sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-amber-500/20 text-amber-400 rounded-xl border border-amber-500/30">
+                    <i data-lucide="utensils-crossed" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-xl text-white tracking-wide">FoodDecision <span class="text-xs bg-amber-500 text-slate-900 font-bold px-2 py-0.5 rounded-full uppercase ml-1">Palembang Indah Mall</span></h1>
+                    <p class="text-xs text-slate-400">Sistem Pendukung Keputusan Kuliner Terbaik</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="btn-open-modal" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold rounded-xl text-sm flex items-center gap-2 transition-all shadow-lg shadow-amber-500/10">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Tambah Tenant
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- sidebar / filter & bobot panel (4 cols) -->
+        <aside class="lg:col-span-4 space-y-6">
+            
+            <!-- panel metode & bobot kriteria -->
+            <div class="bg-slate-800 border border-slate-700/80 rounded-2xl p-5 shadow-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-bold text-lg text-white flex items-center gap-2">
+                        <i data-lucide="sliders" class="w-5 h-5 text-amber-400"></i> Bobot Kriteria
+                    </h2>
+                    <span class="text-xs bg-slate-700 text-slate-300 px-2 py-1 rounded-md font-mono">Total W = 1.0</span>
+                </div>
+
+                <!--toggle metode--> 
+                <div class="mb-5 bg-slate-900/60 p-1 rounded-xl flex gap-1 border border-slate-700/50">
+                    <button id="btn-method-saw" class="flex-1 py-1.5 text-xs font-semibold rounded-lg bg-amber-500 text-slate-950 shadow transition-all">SAW (Simple Additive)</button>
+                    <button id="btn-method-topsis" class="flex-1 py-1.5 text-xs font-semibold rounded-lg text-slate-400 hover:text-slate-200 transition-all">TOPSIS (Ideal Point)</button>
+                </div>
+
+                <!-- sliders kriteria -->
+                <div class="space-y-4">
+                    <!-- harga -->
+                    <div>
+                        <div class="flex justify-between text-xs font-medium mb-1.5">
+                            <span class="text-slate-300 flex items-center gap-1.5"><i data-lucide="tag" class="w-3.5 h-3.5 text-red-400"></i> Harga (Cost)</span>
+                            <span id="val-w-harga" class="font-mono text-amber-400">0.25</span>
+                        </div>
+                        <input type="range" id="w-harga" min="0" max="1" step="0.05" value="0.25" class="w-full accent-amber-500 bg-slate-700 h-2 rounded-lg cursor-pointer">
+                    </div>
+
+                    <!-- rasa -->
+                    <div>
+                        <div class="flex justify-between text-xs font-medium mb-1.5">
+                            <span class="text-slate-300 flex items-center gap-1.5"><i data-lucide="heart" class="w-3.5 h-3.5 text-emerald-400"></i> Rasa (Benefit)</span>
+                            <span id="val-w-rasa" class="font-mono text-amber-400">0.30</span>
+                        </div>
+                        <input type="range" id="w-rasa" min="0" max="1" step="0.05" value="0.30" class="w-full accent-amber-500 bg-slate-700 h-2 rounded-lg cursor-pointer">
+                    </div>
+
+                    <!-- Kebersihan -->
+                    <div>
+                        <div class="flex justify-between text-xs font-medium mb-1.5">
+                            <span class="text-slate-300 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-400"></i> Kebersihan (Benefit)</span>
+                            <span id="val-w-kebersihan" class="font-mono text-amber-400">0.20</span>
+                        </div>
+                        <input type="range" id="w-kebersihan" min="0" max="1" step="0.05" value="0.20" class="w-full accent-amber-500 bg-slate-700 h-2 rounded-lg cursor-pointer">
+                    </div>
+
+                    <!-- Kecepatan Penyajian -->
+                    <div>
+                        <div class="flex justify-between text-xs font-medium mb-1.5">
+                            <span class="text-slate-300 flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5 text-yellow-400"></i> Kecepatan Saji (Benefit)</span>
+                            <span id="val-w-kecepatan" class="font-mono text-amber-400">0.15</span>
+                        </div>
+                        <input type="range" id="w-kecepatan" min="0" max="1" step="0.05" value="0.15" class="w-full accent-amber-500 bg-slate-700 h-2 rounded-lg cursor-pointer">
+                    </div>
+
+                    <!-- Halal / Kepercayaan -->
+                    <div>
+                        <div class="flex justify-between text-xs font-medium mb-1.5">
+                            <span class="text-slate-300 flex items-center gap-1.5"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-purple-400"></i> Sertifikasi Halal (Benefit)</span>
+                            <span id="val-w-halal" class="font-mono text-amber-400">0.10</span>
+                        </div>
+                        <input type="range" id="w-halal" min="0" max="1" step="0.05" value="0.10" class="w-full accent-amber-500 bg-slate-700 h-2 rounded-lg cursor-pointer">
+                    </div>
+                </div>
+
+                <div class="mt-5 pt-4 border-t border-slate-700/60 flex justify-between gap-2">
+                    <button id="btn-reset-weights" class="text-xs text-slate-400 hover:text-slate-200 underline">Reset Default</button>
+                    <button id="btn-recalculate" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-xs font-semibold rounded-lg text-slate-200 flex items-center gap-1.5">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Hitung Ulang
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel Filter Cepat -->
+            <div class="bg-slate-800 border border-slate-700/80 rounded-2xl p-5 shadow-xl space-y-4">
+                <h3 class="font-bold text-sm text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                    <i data-lucide="filter" class="w-4 h-4 text-amber-400"></i> Filter Alternatif
+                </h3>
+                
+                <div>
+                    <label class="text-xs text-slate-400 block mb-1">Cari Nama Tenant / Makanan</label>
+                    <input type="text" id="filter-search" placeholder="Contoh: Ramen, Udon, Chatime..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500">
+                </div>
+
+                <div>
+                    <label class="text-xs text-slate-400 block mb-1">Status Sertifikat Halal</label>
+                    <select id="filter-halal" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500">
+                        <option value="all">Semua Status</option>
+                        <option value="certified">Hanya Tersertifikasi Halal</option>
+                    </select>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area (8 cols) -->
+        <section class="lg:col-span-8 space-y-6">
+
+            <!-- Top Recommendation Card -->
+            <div id="top-recommendation" class="bg-gradient-to-r from-amber-500/10 via-slate-800 to-slate-800 border border-amber-500/30 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 opacity-10 text-amber-500 pointer-events-none">
+                    <i data-lucide="trophy" class="w-48 h-48"></i>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">
+                    <i data-lucide="award" class="w-4 h-4"></i> Rekomendasi Teratas (#1 SPK)
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 id="rec-title" class="text-2xl font-black text-white">Loading...</h2>
+                        <p id="rec-subtitle" class="text-sm text-slate-400 mt-0.5">Memuat data kalkulasi...</p>
+                        <div id="rec-tags" class="flex flex-wrap gap-2 mt-3"></div>
+                    </div>
+                    <div class="bg-slate-900/80 backdrop-blur border border-slate-700 px-5 py-3 rounded-xl text-center sm:text-right shrink-0">
+                        <span class="text-xs text-slate-400 block">Skor Akhir SPK</span>
+                        <span id="rec-score" class="text-2xl font-extrabold text-amber-400 font-mono">0.000</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Output SPK (Peringkat vs Matrix) -->
+            <div class="bg-slate-800 border border-slate-700/80 rounded-2xl p-5 shadow-xl">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700/80 pb-4 mb-4">
+                    <div class="flex gap-2">
+                        <button id="tab-btn-rank" class="px-4 py-2 text-xs font-bold rounded-xl bg-slate-700 text-amber-400 border border-slate-600 flex items-center gap-1.5">
+                            <i data-lucide="list-ordered" class="w-4 h-4"></i> Peringkat Alternatif
+                        </button>
+                        <button id="tab-btn-chart" class="px-4 py-2 text-xs font-semibold rounded-xl text-slate-400 hover:bg-slate-700/50 flex items-center gap-1.5">
+                            <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Grafik Visual
+                        </button>
+                        <button id="tab-btn-matrix" class="px-4 py-2 text-xs font-semibold rounded-xl text-slate-400 hover:bg-slate-700/50 flex items-center gap-1.5">
+                            <i data-lucide="table" class="w-4 h-4"></i> Matriks Keputusan
+                        </button>
+                    </div>
+                    <span id="method-indicator" class="text-xs text-slate-400 font-mono bg-slate-900 px-3 py-1 rounded-full border border-slate-700">Metode: SAW</span>
+                </div>
+
+                <!-- View 1: Peringkat Alternatif Cards -->
+                <div id="view-ranking" class="space-y-3">
+                    <!-- Dynamic Ranking List -->
+                </div>
+
+                <!-- View 2: Chart Visual -->
+                <div id="view-chart" class="hidden">
+                    <div class="h-64 sm:h-80 w-full">
+                        <canvas id="spkChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- View 3: Decision Matrix Table -->
+                <div id="view-matrix" class="hidden overflow-x-auto">
+                    <table class="w-full text-xs text-left text-slate-300 border-collapse">
+                        <thead class="bg-slate-900 text-slate-400 font-mono border-b border-slate-700">
+                            <tr>
+                                <th class="p-3">Tenant / Alternatif</th>
+                                <th class="p-3 text-center">Harga (C1)</th>
+                                <th class="p-3 text-center">Rasa (C2)</th>
+                                <th class="p-3 text-center">Kebersihan (C3)</th>
+                                <th class="p-3 text-center">Kecepatan (C4)</th>
+                                <th class="p-3 text-center">Halal (C5)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="matrix-tbody" class="divide-y divide-slate-700/50">
+                            <!-- Matrix rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Form Tambah / Edit Tenant -->
+    <div id="tenant-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div class="px-6 py-4 border-b border-slate-700 flex justify-between items-center">
+                <h3 class="font-bold text-lg text-white" id="modal-title">Tambah Tenant Makanan</h3>
+                <button id="btn-close-modal" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <form id="tenant-form" class="p-6 space-y-4">
+                <input type="hidden" id="tenant-id">
+                
+                <div>
+                    <label class="text-xs text-slate-300 block mb-1">Nama Tenant / Restoran</label>
+                    <input type="text" id="form-nama" required placeholder="Contoh: Marugame Udon" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs text-slate-300 block mb-1">Lokasi / Lantai Mall</label>
+                        <input type="text" id="form-lokasi" required placeholder="Lantai 2 - PIM" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="text-xs text-slate-300 block mb-1">Status Halal</label>
+                        <select id="form-halal" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500">
+                            <option value="Tersertifikasi">Tersertifikasi Halal</option>
+                            <option value="No Pork No Lard">No Pork No Lard</option>
+                            <option value="Belum Sertifikasi">Belum Sertifikasi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs text-slate-300 block mb-1">Kriteria Harga (Cost 1-5)</label>
+                        <select id="form-c1" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500">
+                            <option value="1">1 - Sangat Murah (< Rp20k)</option>
+                            <option value="2">2 - Murah (Rp20k - Rp35k)</option>
+                            <option value="3" selected>3 - Sedang (Rp35k - Rp50k)</option>
+                            <option value="4">4 - Mahal (Rp50k - Rp80k)</option>
+                            <option value="5">5 - Sangat Mahal (> Rp80k)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs text-slate-300 block mb-1">Kriteria Rasa (Benefit 1-5)</label>
+                        <select id="form-c2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500">
+                            <option value="1">1 - Kurang Enak</option>
+                            <option value="2">2 - Cukup</option>
+                            <option value="3">3 - Enak</option>
+                            <option value="4" selected>4 - Sangat Enak</option>
+                            <option value="5">5 - Luar Biasa Lezat</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="text-xs text-slate-300 block mb-1">Kebersihan (1-5)</label>
+                        <input type="number" id="form-c3" min="1" max="5" value="4" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="text-xs text-slate-300 block mb-1">Kecepatan (1-5)</label>
+                        <input type="number" id="form-c4" min="1" max="5" value="4" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="text-xs text-slate-300 block mb-1">Halal Score (1-5)</label>
+                        <input type="number" id="form-c5" min="1" max="5" value="5" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-slate-700 flex justify-end gap-2">
+                    <button type="button" id="btn-cancel-modal" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-sm font-semibold">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-sm">Simpan Tenant</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
 </body>
 </html>

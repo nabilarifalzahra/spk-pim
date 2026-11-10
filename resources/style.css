@@ -1,0 +1,31 @@
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+/* Custom Range Input Highlight */
+input[type=range]::-webkit-slider-thumb {
+    transition: transform 0.1s ease-in-out;
+}
+input[type=range]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* Card hover animation */
+.ranking-card {
+    transition: all 0.2s ease-in-out;
+}
+.ranking-card:hover {
+    transform: translateY(-2px);
+}
