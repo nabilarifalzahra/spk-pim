@@ -1,65 +1,199 @@
-// --- Data Initial Tenant Kuliner Mall ---
-let tenants = [
-    { id: 1, nama: "Marugame Udon", lokasi: "Lantai 2 - PIM", halalStatus: "Tersertifikasi", c1: 4, c2: 5, c3: 5, c4: 4, c5: 5 },
-    { id: 2, nama: "Kopi Kenangan", lokasi: "Lantai GF - PIM", halalStatus: "Tersertifikasi", c1: 2, c2: 4, c3: 4, c4: 5, c5: 5 },
-    { id: 3, nama: "Chatime", lokasi: "Lantai L1 - PIM", halalStatus: "Tersertifikasi", c1: 2, c2: 4, c3: 4, c4: 4, c5: 5 },
-    { id: 4, nama: "Teazzi", lokasi: "Lantai 1 - PIM", halalStatus: "Tersertifikasi", c1: 3, c2: 4, c3: 5, c4: 3, c5: 5 },
-    { id: 5, nama: "Feel Matcha", lokasi: "Lantai 2 - PIM", halalStatus: "Belum Sertifikasi", c1: 3, c2: 4, c3: 4, c4: 4, c5: 3 },
-    { id: 6, nama: "Solaria", lokasi: "Lantai 3 - PIM", halalStatus: "Tersertifikasi", c1: 3, c2: 3, c3: 4, c4: 3, c5: 5 },
-    { id: 7, nama: "Gokana Ramen", lokasi: "Lantai 2 - PIM", halalStatus: "Tersertifikasi", c1: 3, c2: 4, c3: 4, c4: 4, c5: 5 }
+const tenants = [
+    { id: 1, nama: "Teazzi", c1: 1, c2: 3, c3: 2, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 4.5, c10: 1, c11: 2 },
+    { id: 2, nama: "Wingstop", c1: 2, c2: 3, c3: 1, c4: 1, c5: 1, c6: 1, c7: 1, c8: 2, c9: 4.8, c10: 2, c11: 2 },
+    { id: 3, nama: "Kebab Baba Rafi", c1: 1, c2: 2, c3: 1, c4: 1, c5: 1, c6: 1, c7: 2, c8: 2, c9: 4.5, c10: 1, c11: 2 },
+    { id: 4, nama: "Feel Matcha", c1: 1, c2: 3, c3: 2, c4: 2, c5: 1, c6: 1, c7: 1, c8: 1, c9: 5.0, c10: 2, c11: 2 },
+    { id: 5, nama: "Kopi Kenangan", c1: 1, c2: 2, c3: 2, c4: 2, c5: 1, c6: 1, c7: 2, c8: 1, c9: 4.7, c10: 2, c11: 2 },
+    { id: 6, nama: "RamenYA!", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 2, c8: 1, c9: 4.9, c10: 2, c11: 2 },
+    { id: 7, nama: "Chatime", c1: 1, c2: 2, c3: 3, c4: 2, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.9, c10: 1, c11: 2 },
+    { id: 8, nama: "Boost Juice", c1: 1, c2: 3, c3: 2, c4: 2, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.8, c10: 1, c11: 2 },
+    { id: 9, nama: "Dcrepes", c1: 1, c2: 2, c3: 1, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 4.2, c10: 1, c11: 2 },
+    { id: 10, nama: "Kimukatsu", c1: 2, c2: 4, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 5.0, c10: 2, c11: 2 },
+    { id: 11, nama: "Hai Sushi", c1: 2, c2: 3, c3: 1, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.7, c10: 2, c11: 2 },
+    { id: 12, nama: "Kichenette", c1: 2, c2: 4, c3: 1, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 5.0, c10: 2, c11: 2 },
+    { id: 13, nama: "Imperial Dimsum", c1: 2, c2: 4, c3: 1, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.9, c10: 2, c11: 2 },
+    { id: 14, nama: "Raacha Suki & BBQ", c1: 2, c2: 4, c3: 1, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.9, c10: 2, c11: 2 },
+    { id: 15, nama: "Gyukaku", c1: 2, c2: 5, c3: 1, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.9, c10: 2, c11: 2 },
+    { id: 16, nama: "Sushi Hiro", c1: 2, c2: 4, c3: 1, c4: 1, c5: 2, c6: 1, c7: 1, c8: 1, c9: 5.0, c10: 2, c11: 2 },
+    { id: 17, nama: "Yakiniku Like", c1: 2, c2: 5, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.8, c10: 2, c11: 3 },
+    { id: 18, nama: "Starbucks", c1: 1, c2: 5, c3: 2, c4: 2, c5: 1, c6: 2, c7: 1, c8: 1, c9: 4.6, c10: 2, c11: 2 },
+    { id: 19, nama: "Marugame", c1: 2, c2: 4, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.7, c10: 2, c11: 3 },
+    { id: 20, nama: "Pepper Lunch", c1: 2, c2: 5, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.9, c10: 2, c11: 2 },
+    { id: 21, nama: "JCO", c1: 1, c2: 2, c3: 1, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 4.4, c10: 2, c11: 4 },
+    { id: 22, nama: "Toby's Estate", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.9, c10: 2, c11: 3 },
+    { id: 23, nama: "Yoshinoya", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 2, c8: 1, c9: 4.0, c10: 2, c11: 3 },
+    { id: 24, nama: "Haraku", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 5.0, c10: 2, c11: 3 },
+    { id: 25, nama: "Sancha", c1: 1, c2: 3, c3: 2, c4: 2, c5: 1, c6: 1, c7: 1, c8: 1, c9: 5.0, c10: 2, c11: 2 },
+    { id: 26, nama: "Chikuro", c1: 1, c2: 3, c3: 1, c4: 1, c5: 1, c6: 2, c7: 1, c8: 1, c9: 4.3, c10: 1, c11: 4 },
+    { id: 27, nama: "Solaria", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 3, c7: 3, c8: 2, c9: 3.9, c10: 2, c11: 4 },
+    { id: 28, nama: "Haraku Ramen", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 5.0, c10: 2, c11: 2 },
+    { id: 29, nama: "Tomoro Cafe", c1: 1, c2: 2, c3: 2, c4: 2, c5: 1, c6: 2, c7: 1, c8: 2, c9: 4.0, c10: 2, c11: 2 },
+    { id: 30, nama: "Sekar", c1: 2, c2: 4, c3: 3, c4: 1, c5: 1, c6: 2, c7: 2, c8: 2, c9: 2.7, c10: 2, c11: 4 },
+    { id: 31, nama: "Beard Papa's", c1: 1, c2: 2, c3: 1, c4: 2, c5: 1, c6: 2, c7: 3, c8: 2, c9: 1.4, c10: 1, c11: 2 },
+    { id: 32, nama: "Sour Sally", c1: 1, c2: 4, c3: 1, c4: 2, c5: 1, c6: 2, c7: 2, c8: 2, c9: 3.7, c10: 1, c11: 2 },
+    { id: 33, nama: "Kimi Doughnut", c1: 1, c2: 2, c3: 1, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 0.0, c10: 1, c11: 1 },
+    { id: 34, nama: "Pia Fuji", c1: 1, c2: 2, c3: 1, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 0.0, c10: 1, c11: 1 },
+    { id: 35, nama: "Tianlala", c1: 1, c2: 2, c3: 2, c4: 2, c5: 1, c6: 2, c7: 1, c8: 2, c9: 3.0, c10: 1, c11: 2 },
+    { id: 36, nama: "Mixue", c1: 1, c2: 2, c3: 2, c4: 2, c5: 1, c6: 2, c7: 2, c8: 2, c9: 4.0, c10: 1, c11: 2 },
+    { id: 37, nama: "Reddog", c1: 1, c2: 2, c3: 1, c4: 1, c5: 1, c6: 2, c7: 2, c8: 2, c9: 0.0, c10: 1, c11: 2 },
+    { id: 38, nama: "Tipsy baker", c1: 1, c2: 2, c3: 1, c4: 2, c5: 1, c6: 1, c7: 2, c8: 2, c9: 0.0, c10: 1, c11: 1 },
+    { id: 39, nama: "Majo Pajo", c1: 1, c2: 2, c3: 1, c4: 2, c5: 2, c6: 1, c7: 2, c8: 2, c9: 0.0, c10: 1, c11: 1 },
+    { id: 40, nama: "Truffle Belly", c1: 2, c2: 3, c3: 1, c4: 1, c5: 1, c6: 2, c7: 2, c8: 2, c9: 3.7, c10: 1, c11: 2 },
+    { id: 41, nama: "Bakmi jakarta", c1: 2, c2: 2, c3: 1, c4: 1, c5: 1, c6: 2, c7: 2, c8: 2, c9: 4.0, c10: 1, c11: 2 },
+    { id: 42, nama: "Roti O", c1: 1, c2: 2, c3: 3, c4: 2, c5: 1, c6: 1, c7: 2, c8: 2, c9: 2.2, c10: 1, c11: 1 },
+    { id: 43, nama: "A&W", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.7, c10: 2, c11: 2 },
+    { id: 44, nama: "Hokben Express", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 2, c7: 1, c8: 2, c9: 0.0, c10: 1, c11: 2 },
+    { id: 45, nama: "Shihlin", c1: 1, c2: 3, c3: 1, c4: 1, c5: 1, c6: 2, c7: 2, c8: 2, c9: 3.2, c10: 1, c11: 2 },
+    { id: 46, nama: "Ramenation", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 5.0, c10: 2, c11: 2 },
+    { id: 47, nama: "Cielo", c1: 1, c2: 3, c3: 1, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 0.0, c10: 1, c11: 1 },
+    { id: 48, nama: "Top Noodle", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 5.0, c10: 2, c11: 2 },
+    { id: 49, nama: "Limau", c1: 2, c2: 3, c3: 1, c4: 1, c5: 2, c6: 2, c7: 3, c8: 2, c9: 2.5, c10: 1, c11: 2 },
+    { id: 50, nama: "Ooma Cafe", c1: 1, c2: 2, c3: 3, c4: 2, c5: 2, c6: 1, c7: 2, c8: 1, c9: 4.7, c10: 1, c11: 1 },
+    { id: 51, nama: "Baskin Robbins", c1: 1, c2: 4, c3: 2, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 4.5, c10: 1, c11: 1 },
+    { id: 52, nama: "Brasserie Bakery", c1: 1, c2: 2, c3: 3, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 4.5, c10: 2, c11: 1 },
+    { id: 53, nama: "Gamchi", c1: 1, c2: 2, c3: 1, c4: 1, c5: 1, c6: 1, c7: 2, c8: 2, c9: 4.6, c10: 1, c11: 2 },
+    { id: 54, nama: "The People's Cafe", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.8, c10: 2, c11: 2 }
 ];
 
-// Configuration Kriteria: C1 (Cost), C2-C5 (Benefit)
+const criteriaKeys = ['c2', 'c5', 'c6', 'c7', 'c8', 'c9', 'c11'];
+
 let weights = {
-    c1: 0.25, // Harga
-    c2: 0.30, // Rasa
-    c3: 0.20, // Kebersihan
-    c4: 0.15, // Kecepatan
-    c5: 0.10  // Halal
+    c2: 0.20,
+    c5: 0.15,
+    c6: 0.15,
+    c7: 0.10,
+    c8: 0.10,
+    c9: 0.20,
+    c11: 0.10
+};
+
+let userCriteriaTypes = {
+    c2: 'cost',
+    c5: 'benefit',
+    c6: 'benefit',
+    c7: 'benefit',
+    c8: 'benefit',
+    c9: 'benefit',
+    c11: 'cost'
+};
+
+const reversedScaleCriteria = {
+    c2: false,
+    c5: true,
+    c6: true,
+    c7: true,
+    c8: true,
+    c9: false,
+    c11: false
+};
+
+const labelsMap = {
+    c1: { 1: "Snack", 2: "Makanan Berat" },
+    c2: { 1: "< Rp15k", 2: "Rp15k - Rp30k", 3: "Rp30k - Rp60k", 4: "Rp60k - Rp100k", 5: "> Rp100k" },
+    c3: { 1: "Makanan", 2: "Minuman", 3: "Makanan & Minuman" },
+    c4: { 1: "Savoury (Gurih)", 2: "Sweet (Manis)" },
+    c5: { 1: "Halal", 2: "Belum Halal" },
+    c6: { 1: "Bersih", 2: "Lumayan", 3: "Tidak" },
+    c7: { 1: "Bagus", 2: "Lumayan", 3: "Tidak" },
+    c8: { 1: "Bagus", 2: "Lumayan", 3: "Tidak" },
+    c10: { 1: "Tenant", 2: "Restoran" },
+    c11: { 1: "< 5 mnt", 2: "5 - 15 mnt", 3: "16 - 30 mnt", 4: "31 - 45 mnt", 5: "> 45 mnt" }
 };
 
 let spkChart = null;
 
-// --- Initialize App ---
 document.addEventListener("DOMContentLoaded", () => {
     lucide.createIcons();
     initEventListeners();
+    updateTotalWeightDisplay();
     calculateSPK();
 });
 
-// --- Event Listeners ---
+function getTotalWeight() {
+    const sum = criteriaKeys.reduce((acc, k) => acc + weights[k], 0);
+    return Math.round(sum * 100) / 100;
+}
+
+function updateTotalWeightDisplay() {
+    const total = getTotalWeight();
+    const remaining = Math.max(0, Math.round((1.0 - total) * 100) / 100);
+    const badge = document.getElementById('total-weight-badge');
+    const info = document.getElementById('weight-remaining-info');
+
+    badge.textContent = `W = ${total.toFixed(2)} / 1.00`;
+    info.textContent = `Sisa kuota bobot: ${remaining.toFixed(2)} (Maksimal 1.00)`;
+
+    if (total === 1.0) {
+        badge.classList.add('text-emerald-400');
+        badge.classList.remove('text-amber-400');
+    } else {
+        badge.classList.add('text-amber-400');
+        badge.classList.remove('text-emerald-400');
+    }
+}
+
 function initEventListeners() {
-    // Weight Sliders
-    ['harga', 'rasa', 'kebersihan', 'kecepatan', 'halal'].forEach((key, idx) => {
+    criteriaKeys.forEach(key => {
         const input = document.getElementById(`w-${key}`);
         const display = document.getElementById(`val-w-${key}`);
+        const typeSelect = document.getElementById(`type-${key}`);
+
         input.addEventListener('input', (e) => {
-            const val = parseFloat(e.target.value);
-            display.textContent = val.toFixed(2);
-            weights[`c${idx + 1}`] = val;
+            let requestedVal = Math.round(parseFloat(e.target.value) * 100) / 100;
+            const otherSum = criteriaKeys
+                .filter(k => k !== key)
+                .reduce((acc, k) => acc + weights[k], 0);
+            const maxAllowed = Math.max(0, Math.round((1.0 - otherSum) * 100) / 100);
+
+            if (requestedVal > maxAllowed) {
+                requestedVal = maxAllowed;
+                e.target.value = requestedVal.toFixed(2);
+            }
+
+            weights[key] = requestedVal;
+            display.textContent = requestedVal.toFixed(2);
+            updateTotalWeightDisplay();
+            calculateSPK();
+        });
+
+        typeSelect.addEventListener('change', (e) => {
+            userCriteriaTypes[key] = e.target.value;
             calculateSPK();
         });
     });
 
-    // Reset Weights Button
     document.getElementById('btn-reset-weights').addEventListener('click', () => {
-        const defaults = { harga: 0.25, rasa: 0.30, kebersihan: 0.20, kecepatan: 0.15, halal: 0.10 };
-        Object.keys(defaults).forEach((key, idx) => {
-            document.getElementById(`w-${key}`).value = defaults[key];
+        const defaults = { c2: 0.20, c5: 0.15, c6: 0.15, c7: 0.10, c8: 0.10, c9: 0.20, c11: 0.10 };
+        const defaultTypes = { c2: 'cost', c5: 'benefit', c6: 'benefit', c7: 'benefit', c8: 'benefit', c9: 'benefit', c11: 'cost' };
+
+        criteriaKeys.forEach(key => {
+            weights[key] = defaults[key];
+            userCriteriaTypes[key] = defaultTypes[key];
+            document.getElementById(`w-${key}`).value = defaults[key].toFixed(2);
             document.getElementById(`val-w-${key}`).textContent = defaults[key].toFixed(2);
-            weights[`c${idx + 1}`] = defaults[key];
+            document.getElementById(`type-${key}`).value = defaultTypes[key];
         });
+
+        updateTotalWeightDisplay();
         calculateSPK();
     });
 
-    // Recalculate Button
-    document.getElementById('btn-recalculate').addEventListener('click', calculateSPK);
+    document.getElementById('btn-recalculate').addEventListener('click', () => {
+    criteriaKeys.forEach(key => {
+        weights[key] = 0.00;
+        document.getElementById(`w-${key}`).value = "0.00";
+        document.getElementById(`val-w-${key}`).textContent = "0.00";
+    });
 
-    // Filter Listeners
+    updateTotalWeightDisplay();
+    calculateSPK();
+    });
+
     document.getElementById('filter-search').addEventListener('input', calculateSPK);
-    document.getElementById('filter-halal').addEventListener('change', calculateSPK);
+    ['filter-c1', 'filter-c3', 'filter-c4', 'filter-c5', 'filter-c10'].forEach(id => {
+        document.getElementById(id).addEventListener('change', calculateSPK);
+    });
 
-    // Tab Navigation
     const tabRank = document.getElementById('tab-btn-rank');
     const tabChart = document.getElementById('tab-btn-chart');
     const tabMatrix = document.getElementById('tab-btn-matrix');
@@ -83,45 +217,6 @@ function initEventListeners() {
         setActiveTab(tabMatrix, [tabRank, tabChart]);
         showView(viewMatrix, [viewRank, viewChart]);
     });
-
-    // Modal Controls
-    const modal = document.getElementById('tenant-modal');
-    document.getElementById('btn-open-modal').addEventListener('click', () => {
-        document.getElementById('modal-title').textContent = "Tambah Tenant Makanan";
-        document.getElementById('tenant-form').reset();
-        document.getElementById('tenant-id').value = "";
-        modal.classList.remove('hidden');
-    });
-
-    document.getElementById('btn-close-modal').addEventListener('click', () => modal.classList.add('hidden'));
-    document.getElementById('btn-cancel-modal').addEventListener('click', () => modal.classList.add('hidden'));
-
-    // Form Submission
-    document.getElementById('tenant-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const id = document.getElementById('tenant-id').value;
-        const newTenant = {
-            id: id ? parseInt(id) : Date.now(),
-            nama: document.getElementById('form-nama').value,
-            lokasi: document.getElementById('form-lokasi').value,
-            halalStatus: document.getElementById('form-halal').value,
-            c1: parseInt(document.getElementById('form-c1').value),
-            c2: parseInt(document.getElementById('form-c2').value),
-            c3: parseInt(document.getElementById('form-c3').value),
-            c4: parseInt(document.getElementById('form-c4').value),
-            c5: parseInt(document.getElementById('form-c5').value),
-        };
-
-        if (id) {
-            const index = tenants.findIndex(t => t.id == id);
-            if (index !== -1) tenants[index] = newTenant;
-        } else {
-            tenants.push(newTenant);
-        }
-
-        modal.classList.add('hidden');
-        calculateSPK();
-    });
 }
 
 function setActiveTab(active, inactives) {
@@ -136,120 +231,150 @@ function showView(activeView, inactiveViews) {
     inactiveViews.forEach(v => v.classList.add('hidden'));
 }
 
-// --- ENGINE SPK (Murni Metode CoCoSo) ---
-function calculateSPK() {
+function getFilteredTenants() {
     const searchValue = document.getElementById('filter-search').value.toLowerCase();
-    const halalFilter = document.getElementById('filter-halal').value;
+    const fC1 = document.getElementById('filter-c1').value;
+    const fC3 = document.getElementById('filter-c3').value;
+    const fC4 = document.getElementById('filter-c4').value;
+    const fC5 = document.getElementById('filter-c5').value;
+    const fC10 = document.getElementById('filter-c10').value;
 
-    let filtered = tenants.filter(t => {
-        const matchSearch = t.nama.toLowerCase().includes(searchValue) || t.lokasi.toLowerCase().includes(searchValue);
-        const matchHalal = halalFilter === 'certified' ? t.halalStatus === 'Tersertifikasi' : true;
-        return matchSearch && matchHalal;
+    return tenants.filter(t => {
+        const matchSearch = t.nama.toLowerCase().includes(searchValue);
+        const matchC1 = fC1 === 'all' ? true : t.c1 === parseInt(fC1);
+        const matchC3 = fC3 === 'all' ? true : t.c3 === parseInt(fC3);
+        const matchC4 = fC4 === 'all' ? true : t.c4 === parseInt(fC4);
+        const matchC5 = fC5 === 'all' ? true : t.c5 === parseInt(fC5);
+        const matchC10 = fC10 === 'all' ? true : t.c10 === parseInt(fC10);
+        return matchSearch && matchC1 && matchC3 && matchC4 && matchC5 && matchC10;
     });
+}
+
+function calculateSPK() {
+    const filtered = getFilteredTenants();
+    document.getElementById('count-badge').textContent = `${filtered.length} Alternatif • λ = 0.5`;
 
     if (filtered.length === 0) {
         renderEmptyState();
         return;
     }
 
+    const isZeroWeight = getTotalWeight() === 0;
     const results = calculateCoCoSo(filtered);
 
-    // Sort Descending by CoCoSo Score (k_i)
-    results.sort((a, b) => b.score - a.score);
+    if (!isZeroWeight) {
+        results.sort((a, b) => b.score - a.score);
+        renderTopRecommendation(results[0]);
+    } else {
+        renderNoRecommendationState();
+    }
 
-    // Render All Views
-    renderTopRecommendation(results[0]);
-    renderRankingList(results);
+    renderRankingList(results, isZeroWeight);
     renderMatrixTable(results);
     if (!document.getElementById('view-chart').classList.contains('hidden')) {
         renderChart(results);
     }
 }
 
-// --- Algoritma CoCoSo (Combined Compromise Solution) ---
+function shouldMaximizeNumeric(key) {
+    const isBenefit = userCriteriaTypes[key] === 'benefit';
+    return reversedScaleCriteria[key] ? !isBenefit : isBenefit;
+}
+
 function calculateCoCoSo(data) {
     const lambda = 0.5;
-    const criteriaKeys = ['c1', 'c2', 'c3', 'c4', 'c5'];
-    const types = { c1: 'cost', c2: 'benefit', c3: 'benefit', c4: 'benefit', c5: 'benefit' };
+    const totalRawWeight = criteriaKeys.reduce((acc, c) => acc + weights[c], 0);
+    const activeWeights = {};
 
-    // 1. Min & Max per kriteria
+    criteriaKeys.forEach(c => {
+        activeWeights[c] = totalRawWeight > 0 ? weights[c] / totalRawWeight : 1 / criteriaKeys.length;
+    });
+
     const minMax = {};
     criteriaKeys.forEach(c => {
         const vals = data.map(d => d[c]);
         minMax[c] = { min: Math.min(...vals), max: Math.max(...vals) };
     });
 
-    // 2. Normalisasi Min-Max & Perhitungan S_i (Additive) & P_i (Power)
     const calculatedData = data.map(item => {
         let S_i = 0;
         let P_i = 0;
 
         criteriaKeys.forEach(c => {
-            const w = weights[c];
+            const w = activeWeights[c];
             const val = item[c];
             const { min, max } = minMax[c];
 
-            // Formula Normalisasi Min-Max
-            let r_ij = (max === min) 
-                ? 1 
-                : (types[c] === 'benefit' ? (val - min) / (max - min) : (max - val) / (max - min));
+            let r_ij = 1;
+            if (max !== min) {
+                r_ij = shouldMaximizeNumeric(c)
+                    ? (val - min) / (max - min)
+                    : (max - val) / (max - min);
+            }
 
             S_i += w * r_ij;
-            P_i += Math.pow(r_ij === 0 ? 0.0001 : r_ij, w);
+            if (w > 0) {
+                P_i += Math.pow(r_ij === 0 ? 0.0001 : r_ij, w);
+            }
         });
 
         return { ...item, S_i, P_i };
     });
 
-    // 3. Min/Max & Sum untuk S_i dan P_i
     const sumS_P = calculatedData.reduce((acc, d) => acc + d.S_i + d.P_i, 0);
     const minS = Math.min(...calculatedData.map(d => d.S_i));
     const maxS = Math.max(...calculatedData.map(d => d.S_i));
     const minP = Math.min(...calculatedData.map(d => d.P_i));
     const maxP = Math.max(...calculatedData.map(d => d.P_i));
 
-    // 4. Hitung Kompromi (k_ia, k_ib, k_ic) & Skor Akhir CoCoSo (k_i)
     return calculatedData.map(item => {
         const k_ia = (item.P_i + item.S_i) / (sumS_P || 1);
         const k_ib = (item.S_i / (minS || 1)) + (item.P_i / (minP || 1));
-        const k_ic = (lambda * item.S_i + (1 - lambda) * item.P_i) / 
+        const k_ic = (lambda * item.S_i + (1 - lambda) * item.P_i) /
                      ((lambda * maxS + (1 - lambda) * maxP) || 1);
 
-        // Formula Skor Akhir CoCoSo (k_i)
         const score = Math.cbrt(k_ia * k_ib * k_ic) + (1 / 3) * (k_ia + k_ib + k_ic);
 
         return { ...item, score, k_ia, k_ib, k_ic };
     });
 }
 
-// --- UI Renderers ---
 function renderTopRecommendation(topItem) {
     if (!topItem) return;
     document.getElementById('rec-title').textContent = topItem.nama;
-    document.getElementById('rec-subtitle').textContent = `Lokasi: ${topItem.lokasi}`;
+    document.getElementById('rec-subtitle').textContent = `${labelsMap.c10[topItem.c10]} • ${labelsMap.c1[topItem.c1]} (${labelsMap.c3[topItem.c3]}) • Rasa ${labelsMap.c4[topItem.c4]}`;
     document.getElementById('rec-score').textContent = topItem.score.toFixed(4);
 
     const tagsContainer = document.getElementById('rec-tags');
     tagsContainer.innerHTML = `
         <span class="text-xs score-box border text-main px-2.5 py-1 rounded-lg flex items-center gap-1">
-            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-accent"></i> ${topItem.halalStatus}
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-accent"></i> ${labelsMap.c5[topItem.c5]}
         </span>
         <span class="text-xs score-box border text-main px-2.5 py-1 rounded-lg">
-            S_i: ${topItem.S_i.toFixed(3)}
+            Harga: ${labelsMap.c2[topItem.c2]}
         </span>
         <span class="text-xs score-box border text-main px-2.5 py-1 rounded-lg">
-            P_i: ${topItem.P_i.toFixed(3)}
+            Rating: ${topItem.c9 > 0 ? topItem.c9.toFixed(1) : 'N/A'}
+        </span>
+        <span class="text-xs score-box border text-main px-2.5 py-1 rounded-lg">
+            S_i: ${topItem.S_i.toFixed(3)} | P_i: ${topItem.P_i.toFixed(3)}
         </span>
     `;
     lucide.createIcons();
 }
 
-function renderRankingList(results) {
+function renderNoRecommendationState() {
+    document.getElementById('rec-title').textContent = "Belum Ada Rekomendasi";
+    document.getElementById('rec-subtitle').textContent = "Atur bobot kriteria (> 0.00) terlebih dahulu untuk menentukan rekomendasi terbaik";
+    document.getElementById('rec-score').textContent = "0.0000";
+}
+
+function renderRankingList(results, isZeroWeight = false) {
     const container = document.getElementById('view-ranking');
     container.innerHTML = "";
 
     results.forEach((item, index) => {
-        const isTop = index === 0;
+        const isTop = !isZeroWeight && index === 0;
         const rankBadgeClass = isTop ? "rank-badge-top" : "rank-badge-normal";
 
         const card = document.createElement('div');
@@ -261,32 +386,27 @@ function renderRankingList(results) {
                     #${index + 1}
                 </div>
                 <div>
-                    <h4 class="font-bold text-white text-base flex items-center gap-2">
+                    <h4 class="font-bold text-white text-base flex flex-wrap items-center gap-2">
                         ${item.nama}
-                        ${isTop ? '<span class="badge-brand text-[10px] px-2 py-0.5 rounded-full uppercase">Rekomendasi CoCoSo</span>' : ''}
+                        ${isTop ? '<span class="badge-brand text-[10px] px-2 py-0.5 rounded-full uppercase">Rekomendasi #1</span>' : ''}
                     </h4>
-                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-sub mt-1">
-                        <span><i data-lucide="map-pin" class="w-3 h-3 inline mr-1"></i>${item.lokasi}</span>
+                    <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-sub mt-1">
+                        <span>${labelsMap.c10[item.c10]} • ${labelsMap.c1[item.c1]}</span>
                         <span>•</span>
-                        <span>Rasa: ${item.c2}/5</span>
+                        <span>Harga: ${labelsMap.c2[item.c2]}</span>
                         <span>•</span>
-                        <span>Halal: ${item.halalStatus}</span>
+                        <span>Rating: ${item.c9 > 0 ? item.c9.toFixed(1) : '-'}</span>
+                        <span>•</span>
+                        <span>${labelsMap.c5[item.c5]}</span>
                     </div>
                 </div>
             </div>
             
-            <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 pt-3 sm:pt-0 border-t-card">
+            <div class="flex items-center w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 pt-3 sm:pt-0 border-t-card">
+                <span class="text-[10px] uppercase tracking-wider text-sub sm:hidden">Skor CoCoSo (k_i)</span>
                 <div class="text-right">
-                    <span class="text-[10px] uppercase tracking-wider text-sub block">Skor CoCoSo (k_i)</span>
+                    <span class="text-[10px] uppercase tracking-wider text-sub hidden sm:block">Skor CoCoSo (k_i)</span>
                     <span class="text-lg font-bold font-mono text-accent">${item.score.toFixed(4)}</span>
-                </div>
-                <div class="flex items-center gap-1">
-                    <button onclick="editTenant(${item.id})" class="p-2 text-sub hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
-                        <i data-lucide="edit-3" class="w-4 h-4"></i>
-                    </button>
-                    <button onclick="deleteTenant(${item.id})" class="p-2 text-sub hover:text-red-400 hover:bg-slate-800 rounded-lg transition-colors">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                    </button>
                 </div>
             </div>
         `;
@@ -299,49 +419,55 @@ function renderMatrixTable(results) {
     const tbody = document.getElementById('matrix-tbody');
     tbody.innerHTML = "";
 
-    results.forEach(item => {
+    results.forEach((item, idx) => {
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-800/40 transition-colors";
         tr.innerHTML = `
-            <td class="p-3 font-semibold text-white">${item.nama} <span class="text-[10px] text-sub font-normal block">${item.lokasi}</span></td>
-            <td class="p-3 text-center font-mono">${item.c1}</td>
-            <td class="p-3 text-center font-mono text-emerald-400">${item.c2}</td>
-            <td class="p-3 text-center font-mono text-blue-400">${item.c3}</td>
-            <td class="p-3 text-center font-mono text-yellow-400">${item.c4}</td>
-            <td class="p-3 text-center font-mono text-purple-400">${item.c5}</td>
-            <td class="p-3 text-center font-mono text-emerald-400">${item.S_i ? item.S_i.toFixed(3) : '-'}</td>
-            <td class="p-3 text-center font-mono text-cyan-400">${item.P_i ? item.P_i.toFixed(3) : '-'}</td>
-            <td class="p-3 text-center font-mono font-bold text-amber-400">${item.score.toFixed(4)}</td>
+            <td class="p-2.5 font-semibold text-white whitespace-nowrap">#${idx + 1} ${item.nama}</td>
+            <td class="p-2.5 text-center font-mono text-sub">${item.c1}</td>
+            <td class="p-2.5 text-center font-mono text-red-300">${item.c2}</td>
+            <td class="p-2.5 text-center font-mono text-sub">${item.c3}</td>
+            <td class="p-2.5 text-center font-mono text-sub">${item.c4}</td>
+            <td class="p-2.5 text-center font-mono text-purple-300">${item.c5}</td>
+            <td class="p-2.5 text-center font-mono text-blue-300">${item.c6}</td>
+            <td class="p-2.5 text-center font-mono text-emerald-300">${item.c7}</td>
+            <td class="p-2.5 text-center font-mono text-cyan-300">${item.c8}</td>
+            <td class="p-2.5 text-center font-mono text-amber-300">${item.c9.toFixed(1)}</td>
+            <td class="p-2.5 text-center font-mono text-sub">${item.c10}</td>
+            <td class="p-2.5 text-center font-mono text-orange-300">${item.c11}</td>
+            <td class="p-2.5 text-center font-mono text-emerald-400">${item.S_i.toFixed(4)}</td>
+            <td class="p-2.5 text-center font-mono text-cyan-400">${item.P_i.toFixed(4)}</td>
+            <td class="p-2.5 text-center font-mono text-pink-300">${item.k_ia.toFixed(4)}</td>
+            <td class="p-2.5 text-center font-mono text-purple-300">${item.k_ib.toFixed(4)}</td>
+            <td class="p-2.5 text-center font-mono text-indigo-300">${item.k_ic.toFixed(4)}</td>
+            <td class="p-2.5 text-center font-mono font-bold text-amber-400">${item.score.toFixed(4)}</td>
         `;
         tbody.appendChild(tr);
     });
 }
 
 function renderChart(results) {
+    const isZeroWeight = getTotalWeight() === 0;
     if (!results) {
-        const searchValue = document.getElementById('filter-search').value.toLowerCase();
-        const halalFilter = document.getElementById('filter-halal').value;
-        let filtered = tenants.filter(t => {
-            const matchSearch = t.nama.toLowerCase().includes(searchValue) || t.lokasi.toLowerCase().includes(searchValue);
-            const matchHalal = halalFilter === 'certified' ? t.halalStatus === 'Tersertifikasi' : true;
-            return matchSearch && matchHalal;
-        });
+        const filtered = getFilteredTenants();
         results = calculateCoCoSo(filtered);
-        results.sort((a, b) => b.score - a.score);
+        if (!isZeroWeight) {
+            results.sort((a, b) => b.score - a.score);
+        }
     }
 
+    const topResults = results.slice(0, 15);
     const ctx = document.getElementById('spkChart').getContext('2d');
-    
     if (spkChart) spkChart.destroy();
 
     spkChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: results.map(r => r.nama),
+            labels: topResults.map(r => r.nama),
             datasets: [{
                 label: 'Skor Akhir CoCoSo (k_i)',
-                data: results.map(r => r.score),
-                backgroundColor: results.map((_, i) => i === 0 ? '#10b981' : '#06b6d4'),
+                data: topResults.map(r => r.score),
+                backgroundColor: topResults.map((_, i) => (!isZeroWeight && i === 0) ? '#ec4899' : '#c084fc'),
                 borderRadius: 8
             }]
         },
@@ -354,12 +480,12 @@ function renderChart(results) {
             scales: {
                 y: {
                     beginAtZero: true,
-                    grid: { color: '#1e2942' },
+                    grid: { color: '#2e2340' },
                     ticks: { color: '#94a3b8' }
                 },
                 x: {
                     grid: { display: false },
-                    ticks: { color: '#94a3b8' }
+                    ticks: { color: '#94a3b8', maxRotation: 45, minRotation: 25 }
                 }
             }
         }
@@ -370,38 +496,13 @@ function renderEmptyState() {
     document.getElementById('view-ranking').innerHTML = `
         <div class="text-center py-12 text-sub">
             <i data-lucide="search-x" class="w-12 h-12 mx-auto mb-3 opacity-50"></i>
-            <p>Tidak ada tenant makanan yang cocok dengan filter.</p>
+            <p>Tidak ada tempat makan/minuman yang cocok dengan filter.</p>
         </div>
     `;
+    document.getElementById('matrix-tbody').innerHTML = "";
     document.getElementById('rec-title').textContent = "Tidak Ada Data";
-    document.getElementById('rec-subtitle').textContent = "Ubah kata kunci pencarian atau filter";
+    document.getElementById('rec-subtitle').textContent = "Ubah kata kunci pencarian atau filter kriteria atribut";
     document.getElementById('rec-score').textContent = "0.0000";
     document.getElementById('rec-tags').innerHTML = "";
     lucide.createIcons();
 }
-
-// --- Action Helpers ---
-window.editTenant = function(id) {
-    const item = tenants.find(t => t.id === id);
-    if (!item) return;
-
-    document.getElementById('modal-title').textContent = "Edit Tenant Makanan";
-    document.getElementById('tenant-id').value = item.id;
-    document.getElementById('form-nama').value = item.nama;
-    document.getElementById('form-lokasi').value = item.lokasi;
-    document.getElementById('form-halal').value = item.halalStatus;
-    document.getElementById('form-c1').value = item.c1;
-    document.getElementById('form-c2').value = item.c2;
-    document.getElementById('form-c3').value = item.c3;
-    document.getElementById('form-c4').value = item.c4;
-    document.getElementById('form-c5').value = item.c5;
-
-    document.getElementById('tenant-modal').classList.remove('hidden');
-};
-
-window.deleteTenant = function(id) {
-    if (confirm("Apakah Anda yakin ingin menghapus tenant ini dari daftar?")) {
-        tenants = tenants.filter(t => t.id !== id);
-        calculateSPK();
-    }
-};

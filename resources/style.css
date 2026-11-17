@@ -1,34 +1,26 @@
-/* ==========================================================================
-   Warna Utama & Variabel Tema (Deep Navy & Pink Neon / Rose Theme)
-   ========================================================================== */
 :root {
-    --bg-main: #0f0d15;                 /* Dark Violet Background */
-    --bg-card: #191424;                 /* Dark Purple/Rose Slate Card */
-    --bg-input: #0f0d15;                /* Dark Input Background */
-    --border-color: #2e2340;            /* Soft Violet Border */
-    
+    --bg-main: #0f0d15;
+    --bg-card: #191424;
+    --bg-input: #0f0d15;
+    --border-color: #2e2340;
     --text-white: #ffffff;
     --text-main: #e2e8f0;
     --text-sub: #94a3b8;
-    
-    --accent-pink: #ec4899;             /* Vibrant Pink Primary */
-    --accent-pink-hover: #f472b6;       /* Light Pink Hover */
-    --accent-pink-light: rgba(236, 72, 153, 0.15); /* Soft Pink Glow Background */
-    --accent-purple: #c084fc;           /* Secondary Purple Accent */
+    --accent-pink: #ec4899;
+    --accent-pink-hover: #f472b6;
+    --accent-pink-light: rgba(236, 72, 153, 0.15);
+    --accent-purple: #c084fc;
 }
 
-/* Base Body Styles */
 body {
     background-color: var(--bg-main);
     color: var(--text-main);
 }
 
-/* Text & Accent Color Utility Classes */
 .text-accent { color: var(--accent-pink); }
 .text-main { color: var(--text-main); }
 .text-sub { color: var(--text-sub); }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -44,9 +36,6 @@ body {
     background: #4a3866;
 }
 
-/* ==========================================================================
-   Header & Component Styles
-   ========================================================================== */
 .app-header {
     background-color: rgba(15, 13, 21, 0.85);
     border-color: var(--border-color);
@@ -60,7 +49,7 @@ body {
 
 .badge-brand {
     background-color: var(--accent-pink);
-    color: #4c0519; /* Deep Rose Text */
+    color: #4c0519;
 }
 
 .badge-mono {
@@ -74,10 +63,30 @@ body {
     border-color: rgba(236, 72, 153, 0.3);
 }
 
-/* Card & Panels */
 .panel-card {
     background-color: var(--bg-card);
     border-color: var(--border-color);
+}
+
+.criteria-item {
+    background-color: rgba(15, 13, 21, 0.55);
+    border-color: var(--border-color);
+}
+
+.type-select {
+    background-color: #251b36;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    cursor: pointer;
+}
+.type-select:focus {
+    outline: none;
+    border-color: var(--accent-pink);
+}
+
+.note-box {
+    background-color: rgba(236, 72, 153, 0.08);
+    border-color: rgba(236, 72, 153, 0.25);
 }
 
 .top-rec-card {
@@ -98,9 +107,6 @@ body {
 .border-t-card { border-top: 1px solid var(--border-color); }
 .border-b-card { border-bottom: 1px solid var(--border-color); }
 
-/* ==========================================================================
-   Form Input & Buttons
-   ========================================================================== */
 .input-field {
     background-color: var(--bg-input);
     border: 1px solid var(--border-color);
@@ -110,15 +116,6 @@ body {
     outline: none;
     border-color: var(--accent-pink);
     box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
-}
-
-.btn-emerald { /* Class alias untuk tombol utama agar kompatibel dengan HTML */
-    background-color: var(--accent-pink);
-    color: #4c0519;
-}
-.btn-emerald:hover {
-    background-color: var(--accent-pink-hover);
-    box-shadow: 0 4px 14px 0 rgba(236, 72, 153, 0.4);
 }
 
 .btn-dark {
@@ -131,7 +128,6 @@ body {
     color: var(--text-white);
 }
 
-/* Range Input (Slider) */
 .custom-range {
     accent-color: var(--accent-pink);
     background-color: #251b36;
@@ -145,7 +141,6 @@ body {
     background-color: var(--accent-pink-hover);
 }
 
-/* Tabs Navigation */
 .tab-btn {
     color: var(--text-sub);
 }
@@ -158,9 +153,6 @@ body {
     border: 1px solid rgba(236, 72, 153, 0.4);
 }
 
-/* ==========================================================================
-   Table & Modal
-   ========================================================================== */
 .table-custom thead {
     background-color: var(--bg-main);
     color: var(--text-sub);
@@ -173,15 +165,6 @@ body {
     background-color: rgba(46, 35, 64, 0.4);
 }
 
-.modal-backdrop {
-    background-color: rgba(15, 13, 21, 0.85);
-}
-.modal-card {
-    background-color: var(--bg-card);
-    border-color: var(--border-color);
-}
-
-/* Ranking Card Animation & Hover */
 .ranking-card {
     background-color: rgba(25, 20, 36, 0.6);
     border: 1px solid var(--border-color);

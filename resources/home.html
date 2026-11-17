@@ -11,7 +11,6 @@
 </head>
 <body class="min-h-screen font-sans flex flex-col">
 
-    <!-- Header / Navbar -->
     <header class="app-header backdrop-blur border-b sticky top-0 z-30">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
@@ -21,115 +20,210 @@
                 <div>
                     <h1 class="font-bold text-xl text-white tracking-wide flex items-center">
                         Palembang Indah Mall
-                        <span class="badge-brand text-xs font-bold px-2 py-0.5 rounded-full uppercase ml-2">Metode CoCoSo</span>
                     </h1>
-                    <p class="text-xs text-sub">Sistem Pendukung Keputusan Kuliner Mall Terbaik</p>
+                    <p class="text-xs text-sub">Sistem Pendukung Keputusan dengan Metode CoCoSo</p>
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <button id="btn-open-modal" class="btn-emerald px-4 py-2 font-semibold rounded-xl text-sm flex items-center gap-2 transition-all shadow-lg">
-                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Tambah Tenant
-                </button>
+                <span class="badge-engine text-xs font-mono px-3 py-1.5 rounded-xl border">Dataset PIM • 11 Kriteria</span>
             </div>
         </div>
     </header>
 
-    <!-- Main Container -->
     <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        <!-- Sidebar / Filter & Bobot Panel -->
         <aside class="lg:col-span-4 space-y-6">
             
-            <!-- Panel Bobot Kriteria -->
             <div class="panel-card border rounded-2xl p-5 shadow-xl">
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center justify-between mb-1">
                     <h2 class="font-bold text-lg text-white flex items-center gap-2">
-                        <i data-lucide="sliders" class="w-5 h-5 text-accent"></i> Bobot Kriteria
+                        <i data-lucide="sliders" class="w-5 h-5 text-accent"></i> Bobot &amp; Tipe Kriteria
                     </h2>
-                    <span class="badge-mono text-xs px-2 py-1 rounded-md font-mono">Total W = 1.0</span>
+                    <span id="total-weight-badge" class="badge-mono text-xs px-2.5 py-1 rounded-md font-mono font-bold">W = 1.00 / 1.00</span>
                 </div>
+                <p id="weight-remaining-info" class="text-[11px] text-sub mb-4">Sisa kuota bobot: 0.00 (Maksimal 1.00)</p>
 
-                <!-- Sliders Kriteria -->
                 <div class="space-y-4">
-                    <!-- Harga -->
-                    <div>
-                        <div class="flex justify-between text-xs font-medium mb-1.5">
-                            <span class="text-main flex items-center gap-1.5"><i data-lucide="tag" class="w-3.5 h-3.5 text-red-400"></i> Harga (Cost)</span>
-                            <span id="val-w-harga" class="font-mono text-accent">0.25</span>
+                    <div class="criteria-item p-2.5 rounded-xl border">
+                        <div class="flex justify-between items-center text-xs font-medium mb-1.5 gap-2">
+                            <span class="text-main flex items-center gap-1.5"><i data-lucide="tag" class="w-3.5 h-3.5 text-red-400"></i> C2: Harga</span>
+                            <div class="flex items-center gap-1.5">
+                                <select id="type-c2" class="type-select rounded-md px-1.5 py-0.5 text-[11px] font-semibold">
+                                    <option value="cost" selected>Cost</option>
+                                    <option value="benefit">Benefit</option>
+                                </select>
+                                <span id="val-w-c2" class="font-mono text-accent font-bold w-9 text-right">0.20</span>
+                            </div>
                         </div>
-                        <input type="range" id="w-harga" min="0" max="1" step="0.05" value="0.25" class="custom-range w-full h-2 rounded-lg cursor-pointer">
+                        <input type="range" id="w-c2" min="0" max="1" step="0.05" value="0.20" class="custom-range w-full h-2 rounded-lg cursor-pointer">
                     </div>
 
-                    <!-- Rasa -->
-                    <div>
-                        <div class="flex justify-between text-xs font-medium mb-1.5">
-                            <span class="text-main flex items-center gap-1.5"><i data-lucide="heart" class="w-3.5 h-3.5 text-emerald-400"></i> Rasa (Benefit)</span>
-                            <span id="val-w-rasa" class="font-mono text-accent">0.30</span>
+                    <div class="criteria-item p-2.5 rounded-xl border">
+                        <div class="flex justify-between items-center text-xs font-medium mb-1.5 gap-2">
+                            <span class="text-main flex items-center gap-1.5"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-purple-400"></i> C5: Sertifikasi Halal</span>
+                            <div class="flex items-center gap-1.5">
+                                <select id="type-c5" class="type-select rounded-md px-1.5 py-0.5 text-[11px] font-semibold">
+                                    <option value="benefit" selected>Benefit</option>
+                                    <option value="cost">Cost</option>
+                                </select>
+                                <span id="val-w-c5" class="font-mono text-accent font-bold w-9 text-right">0.15</span>
+                            </div>
                         </div>
-                        <input type="range" id="w-rasa" min="0" max="1" step="0.05" value="0.30" class="custom-range w-full h-2 rounded-lg cursor-pointer">
+                        <input type="range" id="w-c5" min="0" max="1" step="0.05" value="0.15" class="custom-range w-full h-2 rounded-lg cursor-pointer">
                     </div>
 
-                    <!-- Kebersihan -->
-                    <div>
-                        <div class="flex justify-between text-xs font-medium mb-1.5">
-                            <span class="text-main flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-400"></i> Kebersihan (Benefit)</span>
-                            <span id="val-w-kebersihan" class="font-mono text-accent">0.20</span>
+                    <div class="criteria-item p-2.5 rounded-xl border">
+                        <div class="flex justify-between items-center text-xs font-medium mb-1.5 gap-2">
+                            <span class="text-main flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-400"></i> C6: Kebersihan</span>
+                            <div class="flex items-center gap-1.5">
+                                <select id="type-c6" class="type-select rounded-md px-1.5 py-0.5 text-[11px] font-semibold">
+                                    <option value="benefit" selected>Benefit</option>
+                                    <option value="cost">Cost</option>
+                                </select>
+                                <span id="val-w-c6" class="font-mono text-accent font-bold w-9 text-right">0.15</span>
+                            </div>
                         </div>
-                        <input type="range" id="w-kebersihan" min="0" max="1" step="0.05" value="0.20" class="custom-range w-full h-2 rounded-lg cursor-pointer">
+                        <input type="range" id="w-c6" min="0" max="1" step="0.05" value="0.15" class="custom-range w-full h-2 rounded-lg cursor-pointer">
                     </div>
 
-                    <!-- Kecepatan Penyajian -->
-                    <div>
-                        <div class="flex justify-between text-xs font-medium mb-1.5">
-                            <span class="text-main flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5 text-yellow-400"></i> Kecepatan Saji (Benefit)</span>
-                            <span id="val-w-kecepatan" class="font-mono text-accent">0.15</span>
+                    <div class="criteria-item p-2.5 rounded-xl border">
+                        <div class="flex justify-between items-center text-xs font-medium mb-1.5 gap-2">
+                            <span class="text-main flex items-center gap-1.5"><i data-lucide="smile" class="w-3.5 h-3.5 text-emerald-400"></i> C7: Pelayanan</span>
+                            <div class="flex items-center gap-1.5">
+                                <select id="type-c7" class="type-select rounded-md px-1.5 py-0.5 text-[11px] font-semibold">
+                                    <option value="benefit" selected>Benefit</option>
+                                    <option value="cost">Cost</option>
+                                </select>
+                                <span id="val-w-c7" class="font-mono text-accent font-bold w-9 text-right">0.10</span>
+                            </div>
                         </div>
-                        <input type="range" id="w-kecepatan" min="0" max="1" step="0.05" value="0.15" class="custom-range w-full h-2 rounded-lg cursor-pointer">
+                        <input type="range" id="w-c7" min="0" max="1" step="0.05" value="0.10" class="custom-range w-full h-2 rounded-lg cursor-pointer">
                     </div>
 
-                    <!-- Halal -->
-                    <div>
-                        <div class="flex justify-between text-xs font-medium mb-1.5">
-                            <span class="text-main flex items-center gap-1.5"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-purple-400"></i> Sertifikasi Halal (Benefit)</span>
-                            <span id="val-w-halal" class="font-mono text-accent">0.10</span>
+                    <div class="criteria-item p-2.5 rounded-xl border">
+                        <div class="flex justify-between items-center text-xs font-medium mb-1.5 gap-2">
+                            <span class="text-main flex items-center gap-1.5"><i data-lucide="armchair" class="w-3.5 h-3.5 text-cyan-400"></i> C8: Fasilitas</span>
+                            <div class="flex items-center gap-1.5">
+                                <select id="type-c8" class="type-select rounded-md px-1.5 py-0.5 text-[11px] font-semibold">
+                                    <option value="benefit" selected>Benefit</option>
+                                    <option value="cost">Cost</option>
+                                </select>
+                                <span id="val-w-c8" class="font-mono text-accent font-bold w-9 text-right">0.10</span>
+                            </div>
                         </div>
-                        <input type="range" id="w-halal" min="0" max="1" step="0.05" value="0.10" class="custom-range w-full h-2 rounded-lg cursor-pointer">
+                        <input type="range" id="w-c8" min="0" max="1" step="0.05" value="0.10" class="custom-range w-full h-2 rounded-lg cursor-pointer">
+                    </div>
+
+                    <div class="criteria-item p-2.5 rounded-xl border">
+                        <div class="flex justify-between items-center text-xs font-medium mb-1.5 gap-2">
+                            <span class="text-main flex items-center gap-1.5"><i data-lucide="star" class="w-3.5 h-3.5 text-amber-400"></i> C9: Review Google</span>
+                            <div class="flex items-center gap-1.5">
+                                <select id="type-c9" class="type-select rounded-md px-1.5 py-0.5 text-[11px] font-semibold">
+                                    <option value="benefit" selected>Benefit</option>
+                                    <option value="cost">Cost</option>
+                                </select>
+                                <span id="val-w-c9" class="font-mono text-accent font-bold w-9 text-right">0.20</span>
+                            </div>
+                        </div>
+                        <input type="range" id="w-c9" min="0" max="1" step="0.05" value="0.20" class="custom-range w-full h-2 rounded-lg cursor-pointer">
+                    </div>
+
+                    <div class="criteria-item p-2.5 rounded-xl border">
+                        <div class="flex justify-between items-center text-xs font-medium mb-1.5 gap-2">
+                            <span class="text-main flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5 text-orange-400"></i> C11: Lama Penyajian</span>
+                            <div class="flex items-center gap-1.5">
+                                <select id="type-c11" class="type-select rounded-md px-1.5 py-0.5 text-[11px] font-semibold">
+                                    <option value="cost" selected>Cost</option>
+                                    <option value="benefit">Benefit</option>
+                                </select>
+                                <span id="val-w-c11" class="font-mono text-accent font-bold w-9 text-right">0.10</span>
+                            </div>
+                        </div>
+                        <input type="range" id="w-c11" min="0" max="1" step="0.05" value="0.10" class="custom-range w-full h-2 rounded-lg cursor-pointer">
                     </div>
                 </div>
 
-                <div class="mt-5 pt-4 border-t-card flex justify-between gap-2">
-                    <button id="btn-reset-weights" class="text-xs text-sub hover:underline">Reset Default</button>
+                <div class="note-box mt-4 p-3 rounded-xl border text-[11px] space-y-1.5 leading-relaxed">
+                    <div class="font-bold text-white flex items-center gap-1.5">
+                        <i data-lucide="info" class="w-3.5 h-3.5 text-accent"></i> Catatan Aturan Kriteria &amp; Bobot:
+                    </div>
+                    <ul class="list-disc pl-4 space-y-1 text-sub">
+                        <li><strong class="text-red-300">Cost:</strong> Semakin kecil nilai kriterianya, semakin baik/diprioritaskan (contoh: Harga murah, Waktu penyajian cepat).</li>
+                        <li><strong class="text-emerald-300">Benefit:</strong> Semakin tinggi kualitas/keuntungannya, semakin baik (contoh: Rating tinggi, Halal, Bersih, Pelayanan &amp; Fasilitas bagus).</li>
+                        <li><strong class="text-amber-300">Skala dataset (C5–C8):</strong> Kode <strong>1</strong> berarti kondisi terbaik (1 = Halal / Bersih / Bagus), sehingga sistem otomatis memprioritaskan kode 1 saat tipe Benefit dipilih.</li>
+                        <li><strong class="text-accent">Batas bobot (W):</strong> Total seluruh bobot kriteria maksimal <strong>1.00</strong>. Kurangi bobot kriteria lain terlebih dahulu jika ingin menaikkan bobot tertentu.</li>
+                    </ul>
+                </div>
+
+                <div class="mt-4 pt-3 border-t-card flex justify-between items-center gap-2">
+                    <button id="btn-reset-weights" class="text-xs text-sub hover:underline">Reset (0.00)</button>
                     <button id="btn-recalculate" class="btn-dark px-3 py-1.5 text-xs font-semibold rounded-lg flex items-center gap-1.5">
-                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Hitung Ulang
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Reset
                     </button>
                 </div>
             </div>
 
-            <!-- Panel Filter -->
-            <div class="panel-card border rounded-2xl p-5 shadow-xl space-y-4">
+            <div class="panel-card border rounded-2xl p-5 shadow-xl space-y-3.5">
                 <h3 class="font-bold text-sm text-sub uppercase tracking-wider flex items-center gap-2">
-                    <i data-lucide="filter" class="w-4 h-4 text-accent"></i> Filter Alternatif
+                    <i data-lucide="filter" class="w-4 h-4 text-accent"></i> Filter Kriteria Atribut
                 </h3>
                 
                 <div>
-                    <label class="text-xs text-sub block mb-1">Cari Nama Tenant / Makanan</label>
+                    <label class="text-xs text-sub block mb-1">Cari Nama Resto / Tempat</label>
                     <input type="text" id="filter-search" placeholder="Contoh: Ramen, Udon, Chatime..." class="input-field w-full rounded-xl px-3 py-2 text-sm">
                 </div>
 
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="text-xs text-sub block mb-1">C1: Kategori Makanan</label>
+                        <select id="filter-c1" class="input-field w-full rounded-xl px-2.5 py-2 text-xs">
+                            <option value="all">Semua</option>
+                            <option value="1">1 - Snack</option>
+                            <option value="2">2 - Makanan Berat</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs text-sub block mb-1">C3: Jenis</label>
+                        <select id="filter-c3" class="input-field w-full rounded-xl px-2.5 py-2 text-xs">
+                            <option value="all">Semua</option>
+                            <option value="1">1 - Makanan</option>
+                            <option value="2">2 - Minuman</option>
+                            <option value="3">3 - Keduanya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="text-xs text-sub block mb-1">C4: Rasa</label>
+                        <select id="filter-c4" class="input-field w-full rounded-xl px-2.5 py-2 text-xs">
+                            <option value="all">Semua</option>
+                            <option value="1">1 - Savoury (Gurih)</option>
+                            <option value="2">2 - Sweet (Manis)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs text-sub block mb-1">C10: Kategori Tempat</label>
+                        <select id="filter-c10" class="input-field w-full rounded-xl px-2.5 py-2 text-xs">
+                            <option value="all">Semua</option>
+                            <option value="1">1 - Tenant</option>
+                            <option value="2">2 - Restoran</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div>
-                    <label class="text-xs text-sub block mb-1">Status Sertifikat Halal</label>
-                    <select id="filter-halal" class="input-field w-full rounded-xl px-3 py-2 text-sm">
+                    <label class="text-xs text-sub block mb-1">C5: Sertifikasi Halal</label>
+                    <select id="filter-c5" class="input-field w-full rounded-xl px-3 py-2 text-xs">
                         <option value="all">Semua Status</option>
-                        <option value="certified">Hanya Tersertifikasi Halal</option>
+                        <option value="1">1 - Hanya Tersertifikasi Halal</option>
                     </select>
                 </div>
             </div>
         </aside>
 
-        <!-- Main Content Area -->
         <section class="lg:col-span-8 space-y-6">
 
-            <!-- Top Recommendation Card -->
             <div id="top-recommendation" class="top-rec-card border rounded-2xl p-6 shadow-xl relative overflow-hidden">
                 <div class="trophy-icon absolute -right-6 -bottom-6 pointer-events-none">
                     <i data-lucide="trophy" class="w-48 h-48"></i>
@@ -145,52 +239,57 @@
                     </div>
                     <div class="score-box backdrop-blur border px-5 py-3 rounded-xl text-center sm:text-right shrink-0">
                         <span class="text-xs text-sub block">Skor Akhir (k_i)</span>
-                        <span id="rec-score" class="text-2xl font-extrabold text-accent font-mono">0.000</span>
+                        <span id="rec-score" class="text-2xl font-extrabold text-accent font-mono">0.0000</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Tab Output SPK -->
             <div class="panel-card border rounded-2xl p-5 shadow-xl">
                 <div class="flex flex-wrap items-center justify-between gap-3 border-b-card pb-4 mb-4">
-                    <div class="flex gap-2">
+                    <div class="flex flex-wrap gap-2">
                         <button id="tab-btn-rank" class="tab-btn active px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-1.5">
                             <i data-lucide="list-ordered" class="w-4 h-4"></i> Peringkat CoCoSo
                         </button>
                         <button id="tab-btn-chart" class="tab-btn px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-1.5">
-                            <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Grafik Visual
+                            <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Grafik Top 15
                         </button>
                         <button id="tab-btn-matrix" class="tab-btn px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-1.5">
-                            <i data-lucide="table" class="w-4 h-4"></i> Matriks & Detail CoCoSo
+                            <i data-lucide="table" class="w-4 h-4"></i> Matriks &amp; Detail CoCoSo
                         </button>
                     </div>
-                    <span class="badge-engine text-xs font-mono px-3 py-1 rounded-full border">Engine: CoCoSo Method (λ = 0.5)</span>
+                    <span id="count-badge" class="badge-engine text-xs font-mono px-3 py-1 rounded-full border">54 Alternatif • λ = 0.5</span>
                 </div>
 
-                <!-- View 1: Peringkat Alternatif -->
-                <div id="view-ranking" class="space-y-3"></div>
+                <div id="view-ranking" class="space-y-3 max-h-[760px] overflow-y-auto pr-1"></div>
 
-                <!-- View 2: Chart Visual -->
                 <div id="view-chart" class="hidden">
-                    <div class="h-64 sm:h-80 w-full">
+                    <div class="h-80 sm:h-96 w-full">
                         <canvas id="spkChart"></canvas>
                     </div>
                 </div>
 
-                <!-- View 3: Decision Matrix & CoCoSo Details Table -->
-                <div id="view-matrix" class="hidden overflow-x-auto">
+                <div id="view-matrix" class="hidden overflow-x-auto max-h-[760px] overflow-y-auto">
                     <table class="table-custom w-full text-xs text-left border-collapse">
-                        <thead>
+                        <thead class="sticky top-0 z-10">
                             <tr>
-                                <th class="p-3">Tenant / Alternatif</th>
-                                <th class="p-3 text-center">Harga (C1)</th>
-                                <th class="p-3 text-center">Rasa (C2)</th>
-                                <th class="p-3 text-center">Kebersihan (C3)</th>
-                                <th class="p-3 text-center">Kecepatan (C4)</th>
-                                <th class="p-3 text-center">Halal (C5)</th>
-                                <th class="p-3 text-center text-emerald-400">S_i (Additive)</th>
-                                <th class="p-3 text-center text-cyan-400">P_i (Power)</th>
-                                <th class="p-3 text-center text-amber-400">Skor k_i</th>
+                                <th class="p-2.5">Rank &amp; Nama</th>
+                                <th class="p-2.5 text-center">C1</th>
+                                <th class="p-2.5 text-center">C2</th>
+                                <th class="p-2.5 text-center">C3</th>
+                                <th class="p-2.5 text-center">C4</th>
+                                <th class="p-2.5 text-center">C5</th>
+                                <th class="p-2.5 text-center">C6</th>
+                                <th class="p-2.5 text-center">C7</th>
+                                <th class="p-2.5 text-center">C8</th>
+                                <th class="p-2.5 text-center">C9</th>
+                                <th class="p-2.5 text-center">C10</th>
+                                <th class="p-2.5 text-center">C11</th>
+                                <th class="p-2.5 text-center text-emerald-400">S_i</th>
+                                <th class="p-2.5 text-center text-cyan-400">P_i</th>
+                                <th class="p-2.5 text-center text-pink-300">k_ia</th>
+                                <th class="p-2.5 text-center text-purple-300">k_ib</th>
+                                <th class="p-2.5 text-center text-indigo-300">k_ic</th>
+                                <th class="p-2.5 text-center text-amber-400">Skor k_i</th>
                             </tr>
                         </thead>
                         <tbody id="matrix-tbody" class="divide-y-custom"></tbody>
@@ -202,83 +301,6 @@
 
     </main>
 
-    <!-- Modal Form Tambah / Edit Tenant -->
-    <div id="tenant-modal" class="modal-backdrop fixed inset-0 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="modal-card border rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden">
-            <div class="px-6 py-4 border-b-card flex justify-between items-center">
-                <h3 class="font-bold text-lg text-white" id="modal-title">Tambah Tenant Makanan</h3>
-                <button id="btn-close-modal" class="text-sub hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-            </div>
-            <form id="tenant-form" class="p-6 space-y-4">
-                <input type="hidden" id="tenant-id">
-                
-                <div>
-                    <label class="text-xs text-main block mb-1">Nama Tenant / Restoran</label>
-                    <input type="text" id="form-nama" required placeholder="Contoh: Marugame Udon" class="input-field w-full rounded-xl px-3 py-2 text-sm">
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="text-xs text-main block mb-1">Lokasi / Lantai Mall</label>
-                        <input type="text" id="form-lokasi" required placeholder="Lantai 2 - PIM" class="input-field w-full rounded-xl px-3 py-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="text-xs text-main block mb-1">Status Halal</label>
-                        <select id="form-halal" class="input-field w-full rounded-xl px-3 py-2 text-sm">
-                            <option value="Tersertifikasi">Tersertifikasi Halal</option>
-                            <option value="No Pork No Lard">No Pork No Lard</option>
-                            <option value="Belum Sertifikasi">Belum Sertifikasi</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="text-xs text-main block mb-1">Kriteria Harga (Cost 1-5)</label>
-                        <select id="form-c1" class="input-field w-full rounded-xl px-3 py-2 text-sm">
-                            <option value="1">1 - Sangat Murah (&lt; Rp20k)</option>
-                            <option value="2">2 - Murah (Rp20k - Rp35k)</option>
-                            <option value="3" selected>3 - Sedang (Rp35k - Rp50k)</option>
-                            <option value="4">4 - Mahal (Rp50k - Rp80k)</option>
-                            <option value="5">5 - Sangat Mahal (&gt; Rp80k)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-xs text-main block mb-1">Kriteria Rasa (Benefit 1-5)</label>
-                        <select id="form-c2" class="input-field w-full rounded-xl px-3 py-2 text-sm">
-                            <option value="1">1 - Kurang Enak</option>
-                            <option value="2">2 - Cukup</option>
-                            <option value="3">3 - Enak</option>
-                            <option value="4" selected>4 - Sangat Enak</option>
-                            <option value="5">5 - Luar Biasa Lezat</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-3 gap-3">
-                    <div>
-                        <label class="text-xs text-main block mb-1">Kebersihan (1-5)</label>
-                        <input type="number" id="form-c3" min="1" max="5" value="4" class="input-field w-full rounded-xl px-3 py-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="text-xs text-main block mb-1">Kecepatan (1-5)</label>
-                        <input type="number" id="form-c4" min="1" max="5" value="4" class="input-field w-full rounded-xl px-3 py-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="text-xs text-main block mb-1">Halal Score (1-5)</label>
-                        <input type="number" id="form-c5" min="1" max="5" value="5" class="input-field w-full rounded-xl px-3 py-2 text-sm">
-                    </div>
-                </div>
-
-                <div class="pt-4 border-t-card flex justify-end gap-2">
-                    <button type="button" id="btn-cancel-modal" class="btn-dark px-4 py-2 text-sm font-semibold rounded-xl">Batal</button>
-                    <button type="submit" class="btn-emerald px-4 py-2 text-sm font-bold rounded-xl">Simpan Tenant</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Custom JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
