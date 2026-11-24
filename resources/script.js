@@ -31,28 +31,21 @@ const tenants = [
     { id: 30, nama: "Sekar", c1: 2, c2: 4, c3: 3, c4: 1, c5: 1, c6: 2, c7: 2, c8: 2, c9: 2.7, c10: 2, c11: 4 },
     { id: 31, nama: "Beard Papa's", c1: 1, c2: 2, c3: 1, c4: 2, c5: 1, c6: 2, c7: 3, c8: 2, c9: 1.4, c10: 1, c11: 2 },
     { id: 32, nama: "Sour Sally", c1: 1, c2: 4, c3: 1, c4: 2, c5: 1, c6: 2, c7: 2, c8: 2, c9: 3.7, c10: 1, c11: 2 },
-    { id: 33, nama: "Kimi Doughnut", c1: 1, c2: 2, c3: 1, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 0.0, c10: 1, c11: 1 },
-    { id: 34, nama: "Pia Fuji", c1: 1, c2: 2, c3: 1, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 0.0, c10: 1, c11: 1 },
-    { id: 35, nama: "Tianlala", c1: 1, c2: 2, c3: 2, c4: 2, c5: 1, c6: 2, c7: 1, c8: 2, c9: 3.0, c10: 1, c11: 2 },
-    { id: 36, nama: "Mixue", c1: 1, c2: 2, c3: 2, c4: 2, c5: 1, c6: 2, c7: 2, c8: 2, c9: 4.0, c10: 1, c11: 2 },
-    { id: 37, nama: "Reddog", c1: 1, c2: 2, c3: 1, c4: 1, c5: 1, c6: 2, c7: 2, c8: 2, c9: 0.0, c10: 1, c11: 2 },
-    { id: 38, nama: "Tipsy baker", c1: 1, c2: 2, c3: 1, c4: 2, c5: 1, c6: 1, c7: 2, c8: 2, c9: 0.0, c10: 1, c11: 1 },
-    { id: 39, nama: "Majo Pajo", c1: 1, c2: 2, c3: 1, c4: 2, c5: 2, c6: 1, c7: 2, c8: 2, c9: 0.0, c10: 1, c11: 1 },
-    { id: 40, nama: "Truffle Belly", c1: 2, c2: 3, c3: 1, c4: 1, c5: 1, c6: 2, c7: 2, c8: 2, c9: 3.7, c10: 1, c11: 2 },
-    { id: 41, nama: "Bakmi jakarta", c1: 2, c2: 2, c3: 1, c4: 1, c5: 1, c6: 2, c7: 2, c8: 2, c9: 4.0, c10: 1, c11: 2 },
-    { id: 42, nama: "Roti O", c1: 1, c2: 2, c3: 3, c4: 2, c5: 1, c6: 1, c7: 2, c8: 2, c9: 2.2, c10: 1, c11: 1 },
-    { id: 43, nama: "A&W", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.7, c10: 2, c11: 2 },
-    { id: 44, nama: "Hokben Express", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 2, c7: 1, c8: 2, c9: 0.0, c10: 1, c11: 2 },
-    { id: 45, nama: "Shihlin", c1: 1, c2: 3, c3: 1, c4: 1, c5: 1, c6: 2, c7: 2, c8: 2, c9: 3.2, c10: 1, c11: 2 },
-    { id: 46, nama: "Ramenation", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 5.0, c10: 2, c11: 2 },
-    { id: 47, nama: "Cielo", c1: 1, c2: 3, c3: 1, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 0.0, c10: 1, c11: 1 },
-    { id: 48, nama: "Top Noodle", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 5.0, c10: 2, c11: 2 },
-    { id: 49, nama: "Limau", c1: 2, c2: 3, c3: 1, c4: 1, c5: 2, c6: 2, c7: 3, c8: 2, c9: 2.5, c10: 1, c11: 2 },
-    { id: 50, nama: "Ooma Cafe", c1: 1, c2: 2, c3: 3, c4: 2, c5: 2, c6: 1, c7: 2, c8: 1, c9: 4.7, c10: 1, c11: 1 },
-    { id: 51, nama: "Baskin Robbins", c1: 1, c2: 4, c3: 2, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 4.5, c10: 1, c11: 1 },
-    { id: 52, nama: "Brasserie Bakery", c1: 1, c2: 2, c3: 3, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 4.5, c10: 2, c11: 1 },
-    { id: 53, nama: "Gamchi", c1: 1, c2: 2, c3: 1, c4: 1, c5: 1, c6: 1, c7: 2, c8: 2, c9: 4.6, c10: 1, c11: 2 },
-    { id: 54, nama: "The People's Cafe", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.8, c10: 2, c11: 2 }
+    { id: 33, nama: "Tianlala", c1: 1, c2: 2, c3: 2, c4: 2, c5: 1, c6: 2, c7: 1, c8: 2, c9: 3.0, c10: 1, c11: 2 },
+    { id: 34, nama: "Mixue", c1: 1, c2: 2, c3: 2, c4: 2, c5: 1, c6: 2, c7: 2, c8: 2, c9: 4.0, c10: 1, c11: 2 },
+    { id: 35, nama: "Truffle Belly", c1: 2, c2: 3, c3: 1, c4: 1, c5: 1, c6: 2, c7: 2, c8: 2, c9: 3.7, c10: 1, c11: 2 },
+    { id: 36, nama: "Bakmi jakarta", c1: 2, c2: 2, c3: 1, c4: 1, c5: 1, c6: 2, c7: 2, c8: 2, c9: 4.0, c10: 1, c11: 2 },
+    { id: 37, nama: "Roti O", c1: 1, c2: 2, c3: 3, c4: 2, c5: 1, c6: 1, c7: 2, c8: 2, c9: 2.2, c10: 1, c11: 1 },
+    { id: 38, nama: "A&W", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.7, c10: 2, c11: 2 },
+    { id: 39, nama: "Shihlin", c1: 1, c2: 3, c3: 1, c4: 1, c5: 1, c6: 2, c7: 2, c8: 2, c9: 3.2, c10: 1, c11: 2 },
+    { id: 40, nama: "Ramenation", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 5.0, c10: 2, c11: 2 },
+    { id: 41, nama: "Top Noodle", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 5.0, c10: 2, c11: 2 },
+    { id: 42, nama: "Limau", c1: 2, c2: 3, c3: 1, c4: 1, c5: 2, c6: 2, c7: 3, c8: 2, c9: 2.5, c10: 1, c11: 2 },
+    { id: 43, nama: "Ooma Cafe", c1: 1, c2: 2, c3: 3, c4: 2, c5: 2, c6: 1, c7: 2, c8: 1, c9: 4.7, c10: 1, c11: 1 },
+    { id: 44, nama: "Baskin Robbins", c1: 1, c2: 4, c3: 2, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 4.5, c10: 1, c11: 1 },
+    { id: 45, nama: "Brasserie Bakery", c1: 1, c2: 2, c3: 3, c4: 2, c5: 1, c6: 1, c7: 1, c8: 2, c9: 4.5, c10: 2, c11: 1 },
+    { id: 46, nama: "Gamchi", c1: 1, c2: 2, c3: 1, c4: 1, c5: 1, c6: 1, c7: 2, c8: 2, c9: 4.6, c10: 1, c11: 2 },
+    { id: 47, nama: "The People's Cafe", c1: 2, c2: 3, c3: 3, c4: 1, c5: 1, c6: 1, c7: 1, c8: 1, c9: 4.8, c10: 2, c11: 2 }
 ];
 
 const criteriaKeys = ['c2', 'c5', 'c6', 'c7', 'c8', 'c9', 'c11'];
@@ -69,22 +62,12 @@ let weights = {
 
 let userCriteriaTypes = {
     c2: 'cost',
-    c5: 'benefit',
-    c6: 'benefit',
-    c7: 'benefit',
-    c8: 'benefit',
+    c5: 'cost',
+    c6: 'cost',
+    c7: 'cost',
+    c8: 'cost',
     c9: 'benefit',
     c11: 'cost'
-};
-
-const reversedScaleCriteria = {
-    c2: false,
-    c5: true,
-    c6: true,
-    c7: true,
-    c8: true,
-    c9: false,
-    c11: false
 };
 
 const labelsMap = {
@@ -164,7 +147,7 @@ function initEventListeners() {
 
     document.getElementById('btn-reset-weights').addEventListener('click', () => {
         const defaults = { c2: 0.20, c5: 0.15, c6: 0.15, c7: 0.10, c8: 0.10, c9: 0.20, c11: 0.10 };
-        const defaultTypes = { c2: 'cost', c5: 'benefit', c6: 'benefit', c7: 'benefit', c8: 'benefit', c9: 'benefit', c11: 'cost' };
+        const defaultTypes = { c2: 'cost', c5: 'cost', c6: 'cost', c7: 'cost', c8: 'cost', c9: 'benefit', c11: 'cost' };
 
         criteriaKeys.forEach(key => {
             weights[key] = defaults[key];
@@ -179,14 +162,14 @@ function initEventListeners() {
     });
 
     document.getElementById('btn-recalculate').addEventListener('click', () => {
-    criteriaKeys.forEach(key => {
-        weights[key] = 0.00;
-        document.getElementById(`w-${key}`).value = "0.00";
-        document.getElementById(`val-w-${key}`).textContent = "0.00";
-    });
+        criteriaKeys.forEach(key => {
+            weights[key] = 0.00;
+            document.getElementById(`w-${key}`).value = "0.00";
+            document.getElementById(`val-w-${key}`).textContent = "0.00";
+        });
 
-    updateTotalWeightDisplay();
-    calculateSPK();
+        updateTotalWeightDisplay();
+        calculateSPK();
     });
 
     document.getElementById('filter-search').addEventListener('input', calculateSPK);
@@ -276,18 +259,25 @@ function calculateSPK() {
     }
 }
 
-function shouldMaximizeNumeric(key) {
-    const isBenefit = userCriteriaTypes[key] === 'benefit';
-    return reversedScaleCriteria[key] ? !isBenefit : isBenefit;
-}
-
 function calculateCoCoSo(data) {
     const lambda = 0.5;
-    const totalRawWeight = criteriaKeys.reduce((acc, c) => acc + weights[c], 0);
-    const activeWeights = {};
+    const totalRawWeight = getTotalWeight();
 
+    if (totalRawWeight === 0) {
+        return data.map(item => ({
+            ...item,
+            S_i: 0,
+            P_i: 0,
+            k_ia: 0,
+            k_ib: 0,
+            k_ic: 0,
+            score: 0
+        }));
+    }
+
+    const activeWeights = {};
     criteriaKeys.forEach(c => {
-        activeWeights[c] = totalRawWeight > 0 ? weights[c] / totalRawWeight : 1 / criteriaKeys.length;
+        activeWeights[c] = totalRawWeight === 1 ? weights[c] : (weights[c] / totalRawWeight);
     });
 
     const minMax = {};
@@ -302,20 +292,21 @@ function calculateCoCoSo(data) {
 
         criteriaKeys.forEach(c => {
             const w = activeWeights[c];
+            if (w <= 0) return; 
             const val = item[c];
             const { min, max } = minMax[c];
 
             let r_ij = 1;
             if (max !== min) {
-                r_ij = shouldMaximizeNumeric(c)
-                    ? (val - min) / (max - min)
-                    : (max - val) / (max - min);
+                if (userCriteriaTypes[c] === 'benefit') {
+                    r_ij = (val - min) / (max - min);
+                } else {
+                    r_ij = (max - val) / (max - min);
+                }
             }
 
             S_i += w * r_ij;
-            if (w > 0) {
-                P_i += Math.pow(r_ij === 0 ? 0.0001 : r_ij, w);
-            }
+            P_i += Math.pow(r_ij, w);
         });
 
         return { ...item, S_i, P_i };
@@ -328,14 +319,14 @@ function calculateCoCoSo(data) {
     const maxP = Math.max(...calculatedData.map(d => d.P_i));
 
     return calculatedData.map(item => {
-        const k_ia = (item.P_i + item.S_i) / (sumS_P || 1);
-        const k_ib = (item.S_i / (minS || 1)) + (item.P_i / (minP || 1));
-        const k_ic = (lambda * item.S_i + (1 - lambda) * item.P_i) /
-                     ((lambda * maxS + (1 - lambda) * maxP) || 1);
+        const k_ia = sumS_P > 0 ? (item.P_i + item.S_i) / sumS_P : 0;
+        const k_ib = (minS > 0 ? item.S_i / minS : 0) + (minP > 0 ? item.P_i / minP : 0);
+        const denomIc = (lambda * maxS) + ((1 - lambda) * maxP);
+        const k_ic = denomIc > 0 ? ((lambda * item.S_i) + ((1 - lambda) * item.P_i)) / denomIc : 0;
 
-        const score = Math.cbrt(k_ia * k_ib * k_ic) + (1 / 3) * (k_ia + k_ib + k_ic);
+        const score = Math.cbrt(k_ia * k_ib * k_ic) + ((k_ia + k_ib + k_ic) / 3);
 
-        return { ...item, score, k_ia, k_ib, k_ic };
+        return { ...item, k_ia, k_ib, k_ic, score };
     });
 }
 
@@ -357,7 +348,7 @@ function renderTopRecommendation(topItem) {
             Rating: ${topItem.c9 > 0 ? topItem.c9.toFixed(1) : 'N/A'}
         </span>
         <span class="text-xs score-box border text-main px-2.5 py-1 rounded-lg">
-            S_i: ${topItem.S_i.toFixed(3)} | P_i: ${topItem.P_i.toFixed(3)}
+            S_i: ${topItem.S_i.toFixed(4)} | P_i: ${topItem.P_i.toFixed(4)}
         </span>
     `;
     lucide.createIcons();
@@ -367,6 +358,7 @@ function renderNoRecommendationState() {
     document.getElementById('rec-title').textContent = "Belum Ada Rekomendasi";
     document.getElementById('rec-subtitle').textContent = "Atur bobot kriteria (> 0.00) terlebih dahulu untuk menentukan rekomendasi terbaik";
     document.getElementById('rec-score').textContent = "0.0000";
+    document.getElementById('rec-tags').innerHTML = "";
 }
 
 function renderRankingList(results, isZeroWeight = false) {
