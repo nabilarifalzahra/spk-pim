@@ -188,3 +188,13 @@ body {
     color: var(--text-main);
     font-weight: 700;
 }
+
+.btn-save-pink {
+    background-color: var(--accent-pink);
+    color: #4c0519;
+    transition: all 0.2s ease;
+}
+.btn-save-pink:hover {
+    background-color: var(--accent-pink-hover);
+    transform: translateY(-1px);
+}

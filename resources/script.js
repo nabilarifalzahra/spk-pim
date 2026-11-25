@@ -84,6 +84,7 @@ const labelsMap = {
 };
 
 let spkChart = null;
+let currentRankedResults = [];
 
 document.addEventListener("DOMContentLoaded", () => {
     lucide.createIcons();
@@ -172,6 +173,11 @@ function initEventListeners() {
         calculateSPK();
     });
 
+    const btnSaveHistory = document.getElementById('btn-save-history');
+    if (btnSaveHistory) {
+        btnSaveHistory.addEventListener('click', saveCurrentHistory);
+    }
+
     document.getElementById('filter-search').addEventListener('input', calculateSPK);
     ['filter-c1', 'filter-c3', 'filter-c4', 'filter-c5', 'filter-c10'].forEach(id => {
         document.getElementById(id).addEventListener('change', calculateSPK);
@@ -180,38 +186,50 @@ function initEventListeners() {
     const tabRank = document.getElementById('tab-btn-rank');
     const tabChart = document.getElementById('tab-btn-chart');
     const tabMatrix = document.getElementById('tab-btn-matrix');
+    const tabHistory = document.getElementById('tab-btn-history');
 
     const viewRank = document.getElementById('view-ranking');
     const viewChart = document.getElementById('view-chart');
     const viewMatrix = document.getElementById('view-matrix');
+    const viewHistory = document.getElementById('view-history');
 
     tabRank.addEventListener('click', () => {
-        setActiveTab(tabRank, [tabChart, tabMatrix]);
-        showView(viewRank, [viewChart, viewMatrix]);
+        setActiveTab(tabRank, [tabChart, tabMatrix, tabHistory]);
+        showView(viewRank, [viewChart, viewMatrix, viewHistory]);
     });
 
     tabChart.addEventListener('click', () => {
-        setActiveTab(tabChart, [tabRank, tabMatrix]);
-        showView(viewChart, [viewRank, viewMatrix]);
+        setActiveTab(tabChart, [tabRank, tabMatrix, tabHistory]);
+        showView(viewChart, [viewRank, viewMatrix, viewHistory]);
         renderChart();
     });
 
     tabMatrix.addEventListener('click', () => {
-        setActiveTab(tabMatrix, [tabRank, tabChart]);
-        showView(viewMatrix, [viewRank, viewChart]);
+        setActiveTab(tabMatrix, [tabRank, tabChart, tabHistory]);
+        showView(viewMatrix, [viewRank, viewChart, viewHistory]);
     });
+
+    if (tabHistory && viewHistory) {
+        tabHistory.addEventListener('click', () => {
+            setActiveTab(tabHistory, [tabRank, tabChart, tabMatrix]);
+            showView(viewHistory, [viewRank, viewChart, viewMatrix]);
+            loadHistoryFromDB();
+        });
+    }
 }
 
 function setActiveTab(active, inactives) {
     active.className = "tab-btn active px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-1.5";
     inactives.forEach(t => {
-        t.className = "tab-btn px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-1.5";
+        if (t) t.className = "tab-btn px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-1.5";
     });
 }
 
 function showView(activeView, inactiveViews) {
     activeView.classList.remove('hidden');
-    inactiveViews.forEach(v => v.classList.add('hidden'));
+    inactiveViews.forEach(v => {
+        if (v) v.classList.add('hidden');
+    });
 }
 
 function getFilteredTenants() {
@@ -238,6 +256,7 @@ function calculateSPK() {
     document.getElementById('count-badge').textContent = `${filtered.length} Alternatif • λ = 0.5`;
 
     if (filtered.length === 0) {
+        currentRankedResults = [];
         renderEmptyState();
         return;
     }
@@ -252,6 +271,7 @@ function calculateSPK() {
         renderNoRecommendationState();
     }
 
+    currentRankedResults = results;
     renderRankingList(results, isZeroWeight);
     renderMatrixTable(results);
     if (!document.getElementById('view-chart').classList.contains('hidden')) {
@@ -497,4 +517,128 @@ function renderEmptyState() {
     document.getElementById('rec-score').textContent = "0.0000";
     document.getElementById('rec-tags').innerHTML = "";
     lucide.createIcons();
+}
+
+// ==========================================
+// FITUR DATABASE RIWAYAT (MYSQL LARAGON)
+// ==========================================
+
+async function saveCurrentHistory() {
+    if (getTotalWeight() === 0 || currentRankedResults.length === 0) {
+        alert("Atur bobot kriteria (> 0.00) terlebih dahulu sebelum menyimpan riwayat.");
+        return;
+    }
+
+    const top1 = currentRankedResults[0];
+    const top3Text = currentRankedResults
+        .slice(0, 3)
+        .map((item, idx) => `#${idx + 1} ${item.nama} (${item.score.toFixed(4)})`)
+        .join(" • ");
+
+    const payload = {
+        weights: weights,
+        types: userCriteriaTypes,
+        rekomendasi_1: top1.nama,
+        skor_ki: top1.score.toFixed(4),
+        top_3_ringkasan: top3Text
+    };
+
+    try {
+        const res = await fetch('api_riwayat.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.status === 'success') {
+            alert("Hasil perhitungan berhasil disimpan ke database riwayat!");
+            if (!document.getElementById('view-history').classList.contains('hidden')) {
+                loadHistoryFromDB();
+            }
+        } else {
+            alert("Gagal menyimpan: " + (data.message || "Error server"));
+        }
+    } catch (err) {
+        alert("Tidak dapat terhubung ke api_riwayat.php. Pastikan Apache & MySQL Laragon aktif.");
+    }
+}
+
+async function loadHistoryFromDB() {
+    const container = document.getElementById('view-history');
+    if (!container) return;
+    container.innerHTML = `<div class="text-center py-10 text-sub text-xs">Memuat riwayat...</div>`;
+
+    try {
+        const res = await fetch('api_riwayat.php');
+        const json = await res.json();
+
+        if (json.status !== 'success' || !json.data || json.data.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-12 text-sub">
+                    <i data-lucide="folder-open" class="w-10 h-10 mx-auto mb-2 opacity-50"></i>
+                    <p class="text-xs">Belum ada riwayat perhitungan yang tersimpan di database.</p>
+                </div>
+            `;
+            lucide.createIcons();
+            return;
+        }
+
+        container.innerHTML = "";
+        json.data.forEach(row => {
+            const parsedWeights = JSON.parse(row.bobot_json);
+            const parsedTypes = JSON.parse(row.tipe_json);
+
+            const bobotTags = Object.entries(parsedWeights)
+                .filter(([_, val]) => val > 0)
+                .map(([k, val]) => `${k.toUpperCase()}:${val.toFixed(2)}(${parsedTypes[k] === 'benefit' ? 'B' : 'C'})`)
+                .join(" | ");
+
+            const card = document.createElement('div');
+            card.className = "ranking-card rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3";
+            card.innerHTML = `
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2 text-[11px] text-sub font-mono">
+                        <i data-lucide="clock" class="w-3.5 h-3.5 text-accent"></i> ${row.waktu_simpan}
+                    </div>
+                    <h4 class="font-bold text-white text-sm">
+                        Teratas: <span class="text-accent">${row.rekomendasi_1}</span>
+                        <span class="font-mono text-xs text-sub ml-1">(k_i = ${parseFloat(row.skor_ki).toFixed(4)})</span>
+                    </h4>
+                    <p class="text-xs text-sub">${row.top_3_ringkasan}</p>
+                    <p class="text-[11px] font-mono text-purple-300 bg-black/30 px-2 py-1 rounded inline-block">${bobotTags}</p>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <button class="btn-apply-history btn-dark px-3 py-1.5 text-xs font-semibold rounded-lg flex items-center gap-1">
+                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-accent"></i> Terapkan Bobot
+                    </button>
+                    <button class="btn-delete-history px-2.5 py-1.5 text-xs text-red-400 hover:bg-red-500/10 rounded-lg border border-red-500/30">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            `;
+
+            card.querySelector('.btn-apply-history').addEventListener('click', () => {
+                criteriaKeys.forEach(key => {
+                    weights[key] = parsedWeights[key] ?? 0;
+                    userCriteriaTypes[key] = parsedTypes[key] ?? 'cost';
+                    document.getElementById(`w-${key}`).value = weights[key].toFixed(2);
+                    document.getElementById(`val-w-${key}`).textContent = weights[key].toFixed(2);
+                    document.getElementById(`type-${key}`).value = userCriteriaTypes[key];
+                });
+                updateTotalWeightDisplay();
+                calculateSPK();
+                document.getElementById('tab-btn-rank').click();
+            });
+
+            card.querySelector('.btn-delete-history').addEventListener('click', async () => {
+                await fetch(`api_riwayat.php?id=${row.id}`, { method: 'DELETE' });
+                loadHistoryFromDB();
+            });
+
+            container.appendChild(card);
+        });
+        lucide.createIcons();
+    } catch (err) {
+        container.innerHTML = `<div class="text-center py-10 text-red-400 text-xs">Gagal memuat riwayat. Pastikan Laragon aktif dan buka via http://localhost/spk-kuliner</div>`;
+    }
 }
