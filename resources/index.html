@@ -228,8 +228,13 @@
                 <div class="trophy-icon absolute -right-6 -bottom-6 pointer-events-none">
                     <i data-lucide="trophy" class="w-48 h-48"></i>
                 </div>
-                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-accent mb-2">
-                    <i data-lucide="award" class="w-4 h-4"></i> Rekomendasi Teratas (CoCoSo Score #1)
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                    <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-accent">
+                        <i data-lucide="award" class="w-4 h-4"></i> Rekomendasi Teratas (CoCoSo Score #1)
+                    </div>
+                    <button id="btn-save-history" class="btn-save-pink px-3 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5 relative z-10">
+                        <i data-lucide="bookmark-plus" class="w-3.5 h-3.5"></i> Simpan ke Riwayat
+                    </button>
                 </div>
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
@@ -255,6 +260,9 @@
                         </button>
                         <button id="tab-btn-matrix" class="tab-btn px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-1.5">
                             <i data-lucide="table" class="w-4 h-4"></i> Matriks &amp; Detail CoCoSo
+                        </button>
+                        <button id="tab-btn-history" class="tab-btn px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-1.5">
+                            <i data-lucide="history" class="w-4 h-4"></i> Riwayat
                         </button>
                     </div>
                     <span id="count-badge" class="badge-engine text-xs font-mono px-3 py-1 rounded-full border">47 Alternatif • λ = 0.5</span>
@@ -294,6 +302,10 @@
                         </thead>
                         <tbody id="matrix-tbody" class="divide-y-custom"></tbody>
                     </table>
+                </div>
+
+                <div id="view-history" class="hidden space-y-3 max-h-[760px] overflow-y-auto pr-1">
+                    <div class="text-center py-10 text-sub text-xs">Memuat riwayat dari database...</div>
                 </div>
             </div>
 
